@@ -58,7 +58,7 @@ const Routes = () => {
             width: 250, //Set Drawer width
           },
           headerStyle: {
-            backgroundColor: '#f4511e', //Set Header color
+            backgroundColor: '#0096FF', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
@@ -68,22 +68,22 @@ const Routes = () => {
         <Drawer.Screen
           name="DashBoardFirst"
           options={{
-            drawerLabel: 'First page Option',
-            title: 'First Stack'
+            drawerLabel: 'DashBoard',
+            title: 'DashBoard'
           }}
           component={DashBoardFirstStack} />
         <Drawer.Screen
           name="DataEntrySecond"
           options={{
-            drawerLabel: 'Second page Option',
-            title: 'Second Stack'
+            drawerLabel: 'New Enquiry',
+            title: 'New Enquiry'
           }}
           component={DataEntrySecondStack} />
           <Drawer.Screen
           name="ListScreenThird"
           options={{
-            drawerLabel: 'Third page Option',
-            title: 'Third Stack'
+            drawerLabel: 'List View',
+            title: 'List View'
           }}
           component={ListScreenThirdStack} />
       </Drawer.Navigator>
