@@ -54,22 +54,22 @@ const Routes = () => {
       <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
-            backgroundColor: '#c6cbef', //Set Drawer background
+            backgroundColor: '#ffffff', //Set Drawer background
             width: 250, //Set Drawer width
           },
           headerStyle: {
-            backgroundColor: '#0096FF', //Set Header color
+            backgroundColor: '#ffffff', //Set Header color
           },
-          headerTintColor: '#fff', //Set Header text color
+          headerTintColor: '#000', //Set Header text color
           headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
+            fontWeight: 'normal', //Set Header text style
           }
         }}>
         <Drawer.Screen
           name="DashBoardFirst"
           options={{
             drawerLabel: 'DashBoard',
-            title: 'DashBoard'
+            title: 'Sales DashBoard'
           }}
           component={DashBoardFirstStack} />
         <Drawer.Screen
