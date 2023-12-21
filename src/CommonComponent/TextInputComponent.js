@@ -18,8 +18,9 @@ export default function TextInputComponent(props) {
                 value={props.value}
                 onChangeText={props.onChangeText}
                 placeholder={props.placeholder}
-                maxLength={100}
+                maxLength={props.maxLength ? props.maxLength : 100}
                 keyboardType='default'
+
             />
         </View>
     )
