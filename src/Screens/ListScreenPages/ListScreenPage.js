@@ -14,20 +14,40 @@ const ListScreenPage = (props,{route,navigation,}) => {
         <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
           <View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textStyle}>First Name : </Text>
-            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.firstName}</Text>
+            <Text style={styles.textStyle}>Lab Name : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.labName}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textStyle}>Last Name : </Text>
-            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.lastName}</Text>
+            <Text style={styles.textStyle}>Owner Name : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.ownerName}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textStyle}>DOB : </Text>
-            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dateOfBirth}</Text>
+            <Text style={styles.textStyle}>Date : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.date}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.textStyle}>DropDown Value : </Text>
-            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dropDownValue}</Text>
+            <Text style={styles.textStyle}>Mobile No : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.mobileNo}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textStyle}>Email Id : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.emailId}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textStyle}>Address : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.address}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textStyle}>Source Person Name : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dropDownSPNValue}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textStyle}>Version : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dropDownVersionValue}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.textStyle}>Amount : </Text>
+            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.amount}</Text>
           </View>
           </View>
           {

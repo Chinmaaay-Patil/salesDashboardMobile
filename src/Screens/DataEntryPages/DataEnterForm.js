@@ -1,5 +1,5 @@
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextInputComponent from '../../CommonComponent/TextInputComponent'
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Feather from 'react-native-vector-icons/Feather'
@@ -7,8 +7,9 @@ import moment from 'moment';
 import { useSelector } from 'react-redux'
 import { actions } from '../../Redux/Action/ActionIndex'
 import DropdownComponent from '../../CommonComponent/DropDownComponent';
+import { useIsFocused } from '@react-navigation/native';
 
-const DataEnterForm = ({navigation}) => {
+const DataEnterForm = ({ navigation }) => {
 
     const [labName, setLabName] = useState('')
     const [ownerName, setOwnername] = useState('')
@@ -57,7 +58,25 @@ const DataEnterForm = ({navigation}) => {
     const [detailOrComment, setDetailOrComment] = useState('')
     const [followUpDate, setFollowUpDate] = useState('')
     const [isTimePickerVisibleFollowUp, setIsTimePickerVisibleFollowUp] = useState(false)
+    const focus = useIsFocused()
     const infoData = useSelector((state) => state.infoReducer.infoArray)
+
+    useEffect(() => {
+        setLabName("");
+        setOwnername("");
+        setMobileNo("");
+        setEmailId("");
+        setAddress("");
+        setDate("");
+        setDropDownSOLValue(null);
+        setDropDownSPNValue(null);
+        setDropDownVersionValue(null);
+        setAmount("");
+        setDropDownSalesPersonValue(null);
+        setDetailOrComment("");
+        setFollowUpDate("");
+    }, [focus])
+    
 
     const handleConfirm = (date) => {
         console.log("A date has been picked: ", date);
@@ -151,10 +170,16 @@ const DataEnterForm = ({navigation}) => {
         navigation.goBack()
     }
 
+    const handlePhoneNumberChange = (text) => {
+        // Block the '.' character from being entered
+        const filteredText = text.replace(/[^0-9]/g, '')
+        setMobileNo(filteredText);
+      };
+
     return (
         <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
             <ScrollView style={{ marginBottom: 20 }}>
-                <View style={{ margin: 10, padding: 10 }}>
+                <View style={{ margin: 10, padding: 10,marginTop:-10 }}>
                     <TextInputComponent
                         text={'Lab Name'}
                         textStyle={styles.textStyle}
@@ -178,17 +203,18 @@ const DataEnterForm = ({navigation}) => {
                         textStyle={styles.textStyle}
                         textInputStyle={styles.inputBox}
                         value={mobileNo}
-                        onChangeText={(text) => setMobileNo(text)}
+                        onChangeText={(text) => handlePhoneNumberChange(text)}
                         mandatory={true}
                         placeholder={'Enter Mobile No'}
                         maxLength={10}
+                        keyboardType={'phone-pad'}
                     />
                     <TextInputComponent
                         text={'Email Id'}
                         textStyle={styles.textStyle}
                         textInputStyle={styles.inputBox}
                         value={emailId}
-                        onChangeText={(text) => setEmailId(text)}
+                        onChangeText={(text)=>setEmailId(text)}
                         mandatory={true}
                         placeholder={'Enter Email Id'}
                     />
@@ -201,38 +227,47 @@ const DataEnterForm = ({navigation}) => {
                         mandatory={true}
                         placeholder={'Enter Address'}
                     />
-                    <Text style={styles.textStyle}>Date</Text>
-                    <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 47 }]}>
-                        <View style={{ width: '85%' }}>
-                            <TextInput
-                                style={[styles.textStyle, { fontWeight: 'normal' }]}
-                                value={date}
-                                placeholder='DD-MM-YYYY'
-                                editable={false}
+                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:20}}>
+                        <Text style={[styles.textStyle, {
+                            position: 'absolute',
+                            top: -14,
+                            left: 10,
+                            zIndex: 100,
+                            backgroundColor: 'white',
+                            paddingHorizontal: 2
+                        }]}>Date</Text>
+                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 47 }]}>
+                            <View style={{ width: '85%' }}>
+                                <TextInput
+                                    style={[styles.textStyle, { fontWeight: 'normal' }]}
+                                    value={date}
+                                    placeholder='DD-MM-YYYY'
+                                    editable={false}
+                                />
+                            </View>
+                            <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
+                                <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
+                                    onPress={() => [setIsTimePickerVisible(true)]}
+                                >
+                                    <View style={{ justifyContent: 'flex-end' }}>
+                                        <Feather name="calendar" size={20} />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <DateTimePickerModal
+                                isVisible={isTimePickerVisible}
+                                mode="date"
+                                onConfirm={(d) => {
+                                    console.log("on Time confirm");
+                                    handleConfirm(d)
+                                }}
+                                maximumDate={new Date()}
+                                onCancel={() => hideTimePicker()}
                             />
                         </View>
-                        <View style={{ width: '10%',marginLeft:20, justifyContent: 'center' }}>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
-                                onPress={() => [setIsTimePickerVisible(true)]}
-                            >
-                                <View style={{ justifyContent: 'flex-end' }}>
-                                    <Feather name="calendar" size={20} />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <DateTimePickerModal
-                            isVisible={isTimePickerVisible}
-                            mode="date"
-                            onConfirm={(d) => {
-                                console.log("on Time confirm");
-                                handleConfirm(d)
-                            }}
-                            maximumDate={new Date()}
-                            onCancel={() => hideTimePicker()}
-                        />
                     </View>
-                    <Text style={styles.textStyle}>Source of Lead List</Text>
-                    <View style={{ marginTop: 10 }}>
+                    {/* <Text style={styles.textStyle}>Source of Lead List</Text> */}
+                    <View style={{ marginTop: 20 }}>
                         <DropdownComponent
                             data={dropDownSOLList}
                             isFocus={openSOLDropDown}
@@ -245,10 +280,11 @@ const DataEnterForm = ({navigation}) => {
                             onFocus={() => setOpenSOLDropDown(false)}
                             searchPlaceholder={'Search Source of Lead'}
                             placeholder={'Select Source of Lead'}
+                            label={'Source of Lead List'}
                         />
                     </View>
-                    <Text style={styles.textStyle}>Source Person Name List</Text>
-                    <View style={{ marginTop: 10 }}>
+                    {/* <Text style={styles.textStyle}>Source Person Name List</Text> */}
+                    <View style={{ marginTop: 20 }}>
                         <DropdownComponent
                             data={dropDownSPNList}
                             isFocus={openSPNDropDown}
@@ -261,10 +297,11 @@ const DataEnterForm = ({navigation}) => {
                             onFocus={() => setOpenSPNDropDown(false)}
                             searchPlaceholder={'Search Source Person Name'}
                             placeholder={'Select Source Person Name'}
+                            label={'Source Person Name List'}
                         />
                     </View>
-                    <Text style={styles.textStyle}>Version List</Text>
-                    <View style={{ marginTop: 10 }}>
+                    {/* <Text style={styles.textStyle}>Version List</Text> */}
+                    <View style={{ marginTop: 20 }}>
                         <DropdownComponent
                             data={dropDownVersionList}
                             isFocus={openVersionDropDown}
@@ -278,6 +315,7 @@ const DataEnterForm = ({navigation}) => {
                             onFocus={() => setOpenVersionDropDown(false)}
                             searchPlaceholder={'Search Version'}
                             placeholder={'Select Version'}
+                            label={'Version List'}
                         />
                     </View>
                     <TextInputComponent
@@ -289,8 +327,8 @@ const DataEnterForm = ({navigation}) => {
                         placeholder={'Enter Amount'}
                     //mandatory={true}
                     />
-                    <Text style={styles.textStyle}>Sales Person Name</Text>
-                    <View style={{ marginTop: 10 }}>
+                    {/* <Text style={styles.textStyle}>Sales Person Name</Text> */}
+                    <View style={{ marginTop: 20 }}>
                         <DropdownComponent
                             data={dropDownSalesPersonList}
                             isFocus={openSalesPersonDropDown}
@@ -303,6 +341,7 @@ const DataEnterForm = ({navigation}) => {
                             onFocus={() => setOpenSalesPersonDropDown(false)}
                             searchPlaceholder={'Search Sales Person Name'}
                             placeholder={'Select Sales Person Name'}
+                            label={'Sales Person Name'}
                         />
                     </View>
                     <TextInputComponent
@@ -314,7 +353,15 @@ const DataEnterForm = ({navigation}) => {
                         placeholder={'Enter Detail or Comment'}
                     //mandatory={true}
                     />
-                    <Text style={styles.textStyle}>Next Follow up Date</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:20}}>
+                        <Text style={[styles.textStyle, {
+                            position: 'absolute',
+                            top: -14,
+                            left: 10,
+                            zIndex: 100,
+                            backgroundColor: 'white',
+                            paddingHorizontal: 2
+                        }]}>Follow up Date</Text>
                     <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 47 }]}>
                         <View style={{ width: '85%' }}>
                             <TextInput
@@ -324,9 +371,9 @@ const DataEnterForm = ({navigation}) => {
                                 editable={false}
                             />
                         </View>
-                        <View style={{ width: '10%',marginLeft:20, justifyContent: 'center' }}>
+                        <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
                             <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
-                                onPress={() => [setIsTimePickerVisibleFollowUp(true), console.log("time picker click")]}
+                                onPress={() => setIsTimePickerVisibleFollowUp(true)}
                             >
                                 <View style={{ justifyContent: 'flex-end' }}>
                                     <Feather name="calendar" size={20} />
@@ -343,6 +390,7 @@ const DataEnterForm = ({navigation}) => {
                             minimumDate={new Date()}
                             onCancel={() => hideTimePickerForFollowup()}
                         />
+                        </View>
                     </View>
                     <View style={{ marginTop: 40, backgroundColor: '#0096FF', height: 40, borderRadius: 20 }}>
                         <TouchableOpacity style={{ alignItems: 'center', alignContent: 'center' }}
@@ -362,9 +410,10 @@ export default DataEnterForm
 
 const styles = StyleSheet.create({
     textStyle: {
-        fontWeight: 'bold',
+        fontWeight: 'normal',
         color: '#000000',
-        marginTop: 10
+        marginTop: 10,
+        fontFamily:'Roboto'
     },
     inputBox: {
         width: '100%',
