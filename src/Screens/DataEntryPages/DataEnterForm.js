@@ -60,6 +60,7 @@ const DataEnterForm = ({ navigation }) => {
     const [isTimePickerVisibleFollowUp, setIsTimePickerVisibleFollowUp] = useState(false)
     const focus = useIsFocused()
     const infoData = useSelector((state) => state.infoReducer.infoArray)
+    const [height,setHeight]=useState(38)
 
     useEffect(() => {
         setLabName("");
@@ -75,8 +76,9 @@ const DataEnterForm = ({ navigation }) => {
         setDropDownSalesPersonValue(null);
         setDetailOrComment("");
         setFollowUpDate("");
+        setHeight(38);
     }, [focus])
-    
+
 
     const handleConfirm = (date) => {
         console.log("A date has been picked: ", date);
@@ -174,12 +176,12 @@ const DataEnterForm = ({ navigation }) => {
         // Block the '.' character from being entered
         const filteredText = text.replace(/[^0-9]/g, '')
         setMobileNo(filteredText);
-      };
+    };
 
     return (
         <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
             <ScrollView style={{ marginBottom: 20 }}>
-                <View style={{ margin: 10, padding: 10,marginTop:-10 }}>
+                <View style={{ margin: 10, padding: 10, marginTop: -10 }}>
                     <TextInputComponent
                         text={'Lab Name'}
                         textStyle={styles.textStyle}
@@ -214,7 +216,7 @@ const DataEnterForm = ({ navigation }) => {
                         textStyle={styles.textStyle}
                         textInputStyle={styles.inputBox}
                         value={emailId}
-                        onChangeText={(text)=>setEmailId(text)}
+                        onChangeText={(text) => setEmailId(text)}
                         mandatory={true}
                         placeholder={'Enter Email Id'}
                     />
@@ -224,10 +226,10 @@ const DataEnterForm = ({ navigation }) => {
                         textInputStyle={styles.inputBox}
                         value={address}
                         onChangeText={(text) => setAddress(text)}
-                        mandatory={true}
+                        //mandatory={true}
                         placeholder={'Enter Address'}
                     />
-                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:20}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                         <Text style={[styles.textStyle, {
                             position: 'absolute',
                             top: -14,
@@ -235,14 +237,17 @@ const DataEnterForm = ({ navigation }) => {
                             zIndex: 100,
                             backgroundColor: 'white',
                             paddingHorizontal: 2
-                        }]}>Date</Text>
-                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 47 }]}>
+                        }]}>
+                            {/* <Text style={{ color: 'red' }}>* </Text> */}
+                            Date</Text>
+                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 38 }]}>
                             <View style={{ width: '85%' }}>
                                 <TextInput
-                                    style={[styles.textStyle, { fontWeight: 'normal' }]}
+                                    style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
                                     value={date}
                                     placeholder='DD-MM-YYYY'
                                     editable={false}
+                                    placeholderTextColor={'gray'}
                                 />
                             </View>
                             <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
@@ -325,7 +330,7 @@ const DataEnterForm = ({ navigation }) => {
                         value={amount}
                         onChangeText={(text) => setAmount(text)}
                         placeholder={'Enter Amount'}
-                    //mandatory={true}
+                        mandatory={true}
                     />
                     {/* <Text style={styles.textStyle}>Sales Person Name</Text> */}
                     <View style={{ marginTop: 20 }}>
@@ -347,13 +352,15 @@ const DataEnterForm = ({ navigation }) => {
                     <TextInputComponent
                         text={'Detail or Comment Required'}
                         textStyle={styles.textStyle}
-                        textInputStyle={styles.inputBox}
+                        textInputStyle={[styles.inputBox,{height:height}]}
                         value={detailOrComment}
                         onChangeText={(text) => setDetailOrComment(text)}
                         placeholder={'Enter Detail or Comment'}
-                    //mandatory={true}
+                        //mandatory={true}
+                        numberOfLines={4}
+                        onContentSizeChange={e => [setHeight(e.nativeEvent.contentSize.height),console.log("e.nativeEvent.contentSize.height",e.nativeEvent.contentSize.height)]}
                     />
-                    <View style={{ flexDirection: 'row', alignItems: 'center',marginTop:20}}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
                         <Text style={[styles.textStyle, {
                             position: 'absolute',
                             top: -14,
@@ -361,42 +368,45 @@ const DataEnterForm = ({ navigation }) => {
                             zIndex: 100,
                             backgroundColor: 'white',
                             paddingHorizontal: 2
-                        }]}>Follow up Date</Text>
-                    <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 47 }]}>
-                        <View style={{ width: '85%' }}>
-                            <TextInput
-                                style={[styles.textStyle, { fontWeight: 'normal' }]}
-                                value={followUpDate}
-                                placeholder='DD-MM-YYYY'
-                                editable={false}
+                        }]}>
+                            {/* <Text style={{ color: 'red' }}>* </Text> */}
+                            Follow up Date</Text>
+                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 38 }]}>
+                            <View style={{ width: '85%' }}>
+                                <TextInput
+                                    style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
+                                    value={followUpDate}
+                                    placeholder='DD-MM-YYYY'
+                                    editable={false}
+                                    placeholderTextColor={'gray'}
+                                />
+                            </View>
+                            <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
+                                <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
+                                    onPress={() => setIsTimePickerVisibleFollowUp(true)}
+                                >
+                                    <View style={{ justifyContent: 'flex-end' }}>
+                                        <Feather name="calendar" size={20} />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <DateTimePickerModal
+                                isVisible={isTimePickerVisibleFollowUp}
+                                mode="date"
+                                onConfirm={(date) => {
+                                    console.log("on Time confirm");
+                                    handleConfirmForFollowup(date)
+                                }}
+                                minimumDate={new Date()}
+                                onCancel={() => hideTimePickerForFollowup()}
                             />
                         </View>
-                        <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
-                                onPress={() => setIsTimePickerVisibleFollowUp(true)}
-                            >
-                                <View style={{ justifyContent: 'flex-end' }}>
-                                    <Feather name="calendar" size={20} />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                        <DateTimePickerModal
-                            isVisible={isTimePickerVisibleFollowUp}
-                            mode="date"
-                            onConfirm={(date) => {
-                                console.log("on Time confirm");
-                                handleConfirmForFollowup(date)
-                            }}
-                            minimumDate={new Date()}
-                            onCancel={() => hideTimePickerForFollowup()}
-                        />
-                        </View>
                     </View>
-                    <View style={{ marginTop: 40, backgroundColor: '#0096FF', height: 40, borderRadius: 20 }}>
+                    <View style={{ marginTop: 40, backgroundColor: '#0A57A7', height: 40, borderRadius: 20 }}>
                         <TouchableOpacity style={{ alignItems: 'center', alignContent: 'center' }}
                             onPress={() => onSaveButtonPress()}
                         >
-                            <Text style={[styles.textStyle, { marginTop: 8, fontSize: 20 }]}>SAVE</Text>
+                            <Text style={[styles.textStyle, { marginTop: 8, fontSize: 20, color:'#FFFFFF', fontWeight:'500', fontSize:14 }]}>SAVE</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -410,10 +420,11 @@ export default DataEnterForm
 
 const styles = StyleSheet.create({
     textStyle: {
-        fontWeight: 'normal',
+        fontWeight: '400',
         color: '#000000',
         marginTop: 10,
-        fontFamily:'Roboto'
+        fontFamily: 'Roboto',
+        fontSize:12
     },
     inputBox: {
         width: '100%',
@@ -422,5 +433,10 @@ const styles = StyleSheet.create({
         marginTop: 4,
         paddingLeft: 15,
         padding: 8,
+        height: 38,
+        fontWeight: '400',
+        color: '#000000',
+        fontFamily: 'Roboto',
+        fontSize:12
     },
 })

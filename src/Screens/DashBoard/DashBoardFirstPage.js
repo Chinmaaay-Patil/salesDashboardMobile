@@ -67,14 +67,15 @@ const DashBoardFirstPage = ({ navigation }) => {
       )
    }
 
-   const navigationToListScreen = (value) => {
+   const navigationToListScreen = (value,colorArray) => {
       const filter = infoData.filter((item) => item.dropDownSOLValue == value)
-      console.log("filter", filter)
+      console.log("filter", filter,value)
       navigation.navigate(
-         "ListScreenThird", {
-         screen: "ListScreenPage",
+         "DashBoardFirst", {
+         screen: "ListScreenPageForFilterData",
          params: {
             listData: filter,
+            gradientColor: colorArray
          },
       }
       )
@@ -128,7 +129,7 @@ const DashBoardFirstPage = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
                <TouchableOpacity
                   //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('NewLead')}
+                  onPress={() => navigationToListScreen('NewLead',['#E0D2FF', '#9678DC'])}
                >
                   <LinearGradient colors={['#E0D2FF', '#9678DC']} style={styles.cardStyle}>
                      <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'New Lead'}</Text>
@@ -141,7 +142,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                </TouchableOpacity>
                <TouchableOpacity
                   //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('Quotation')}
+                  onPress={() => navigationToListScreen('Quotation',['#F26462', '#F8B9BA'])}
                >
                   <LinearGradient colors={['#F26462', '#F8B9BA']} style={styles.cardStyle}>
                      <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Quotation'}</Text>
@@ -156,7 +157,7 @@ const DashBoardFirstPage = ({ navigation }) => {
             <View style={{ flexDirection: 'row' }}>
                <TouchableOpacity
                   //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('Demo')}
+                  onPress={() => navigationToListScreen('Demo',['#3763CC', '#94C3FF'])}
                >
                   <LinearGradient colors={['#3763CC', '#94C3FF']} style={styles.cardStyle}>
                      <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Demo'}</Text>
@@ -169,7 +170,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                </TouchableOpacity>
                <TouchableOpacity
                   //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('CloseLead')}
+                  onPress={() => navigationToListScreen('CloseLead',['#F5915A', '#FFC693'])}
                >
                   <LinearGradient colors={['#F5915A', '#FFC693']} style={styles.cardStyle}>
                      <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Close Lead'}</Text>

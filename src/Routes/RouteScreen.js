@@ -8,6 +8,7 @@ import OtpScreen from '../Screens/Login/OtpScreen';
 import DashBoardFirstPage from '../Screens/DashBoard/DashBoardFirstPage';
 import DataEnterForm from '../Screens/DataEntryPages/DataEnterForm';
 import ListScreenPage from '../Screens/ListScreenPages/ListScreenPage';
+import ListScreenPageForFilter from '../Screens/ListScreenPages/ListScreenPageForFilterList';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +20,7 @@ const Routes = () => {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="DashBoardFirstScreen" component={DashBoardFirstPage} options={{ title: 'Dashboard', headerTintColor: '#000000' }} />
+        <Stack.Screen name="ListScreenPageForFilterData" component={ListScreenPageForFilter} />
       </Stack.Navigator>
     );
   }

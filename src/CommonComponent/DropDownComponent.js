@@ -4,17 +4,16 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 const DropdownComponent = (props) => {
   //console.log("data",props)
-  const [value, setValue] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
 
   const renderLabel = () => {
-   
-      return (
-        <Text style={[styles.label]}>
-          {props.label}
-        </Text>
-      );
-    
+
+    return (
+      <Text style={[styles.label]}>
+        {/* <Text style={{ color: 'red' }}>* </Text> */}
+        {props.label}
+      </Text>
+    );
+
   };
 
   return (
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginTop: 4,
     paddingLeft: 15,
-    padding: 8, height: 47
+    padding: 8, height: 37
   },
   icon: {
     marginRight: 5,
@@ -71,22 +70,22 @@ const styles = StyleSheet.create({
   label: {
     position: 'absolute',
     backgroundColor: 'white',
-    fontSize: 14,
+    fontSize: 12,
     top: -8,
     left: 12,
     zIndex: 100,
     paddingHorizontal: 2,
     fontWeight: 'normal',
     color: '#000000',
-    fontFamily:'Roboto'
+    fontFamily: 'Roboto'
     //marginTop: 10
   },
   placeholderStyle: {
-    fontSize: 14,
+    fontSize: 12,
     color: 'gray'
   },
   selectedTextStyle: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#000'
   },
   iconStyle: {

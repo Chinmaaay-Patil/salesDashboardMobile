@@ -27,9 +27,12 @@ export default function TextInputComponent(props) {
                 value={props.value}
                 onChangeText={props.onChangeText}
                 placeholder={props.placeholder}
-                maxLength={props.maxLength ? props.maxLength : 100}
+                maxLength={props.maxLength ? props.maxLength : 600}
                 keyboardType={props.keyboardType ? props.keyboardType : 'default'}
-
+                numberOfLines={props.numberOfLines}
+                multiline={true}
+                onContentSizeChange={props.onContentSizeChange}
+                placeholderTextColor={'gray'}
             />
             </View>
         </View>
