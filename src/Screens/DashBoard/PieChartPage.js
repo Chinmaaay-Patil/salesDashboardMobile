@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { PieChart } from "react-native-gifted-charts";
 
 const PieChartPage = (props) => {
+    //console.log("subText1",props.pieData)
 
     // const data = [
     //     {
@@ -119,6 +120,8 @@ const PieChartPage = (props) => {
             <Text style={{ color: '#000000', fontSize: 16, fontWeight: 'bold' }}>
                 {props.graphTitle}
             </Text>
+            { props.pieData && props.pieData[0].value && props.pieData[1].value  ? (
+            <View>
             <View style={{ padding: 20, alignItems: 'center' }}>
                 <PieChart
                     data={props.pieData}
@@ -154,6 +157,14 @@ const PieChartPage = (props) => {
             <View style={{marginRight:25}}>
             {renderLegendComponent()}
             </View>
+           </View> 
+            ) : (
+                <View style={{alignItems:'center',height:200,justifyContent:'center'}}>
+                    <Image source={require('../../Assets/file-not-found.png')} style={{ width: 100, height: 100 }} />
+                    <Text style={[styles.textStyle, { marginTop: -10 }]}>NO DATA AVAILABLE !!</Text>
+                 </View>
+            )
+            }
         </View>
     )
 }
@@ -167,5 +178,9 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#fff',
         elevation: 40, shadowColor: '#000'
-    }
+    },
+    textStyle: {
+        fontWeight: 'bold',
+        color: '#000000'
+     },
 })

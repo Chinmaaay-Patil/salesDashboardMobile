@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { BarChart } from "react-native-gifted-charts";
 
 const BarChartPage = (props) => {
-  return (
-    <View style={styles.container}>
-        <Text style={{ color: '#000000', fontSize: 16, fontWeight: 'bold' }}>
-           {props.graphTitle}
-        </Text>
-        <View style={{ alignItems: 'center', paddingVertical: 20 }}>
-           {/* <BarChart
+   return (
+      <View style={styles.container}>
+         <Text style={{ color: '#000000', fontSize: 16, fontWeight: 'bold' }}>
+            {props.graphTitle}
+         </Text>
+         <View style={{ alignItems: 'center', paddingVertical: 20 }}>
+            {/* <BarChart
               width={280}
               //rotateLabel
               noOfSections={3}
@@ -21,21 +21,28 @@ const BarChartPage = (props) => {
               initialSpacing={3}
               barBorderRadius={6}
            /> */}
-           <BarChart
-              width={260}
-              //rotateLabel
-              noOfSections={4}
-              stackData={props.stackData}
-              spacing={44}
-              barWidth={35}
-              xAxisTextNumberOfLines={2}
-              barBorderRadius={6}
-              yAxisThickness={0}
-              //yAxisColor={'#fff'}
-              xAxisThickness={1}
-           />
-        </View>
-        {/* <View style={{
+            {props.stackData.length > 0 ?
+               <BarChart
+                  width={260}
+                  //rotateLabel
+                  noOfSections={4}
+                  stackData={props.stackData}
+                  spacing={50}
+                  barWidth={35}
+                  xAxisTextNumberOfLines={1}
+                  barBorderRadius={6}
+                  yAxisThickness={0}
+                  //yAxisColor={'#fff'}
+                  xAxisThickness={1}
+               />
+               :
+               <View style={{ alignItems: 'center', height: 200, justifyContent: 'center' }}>
+                  <Image source={require('../../Assets/file-not-found.png')} style={{ width: 100, height: 100 }} />
+                  <Text style={[styles.textStyle, { marginTop: -10 }]}>NO DATA AVAILABLE !!</Text>
+               </View>
+            }
+         </View>
+         {/* <View style={{
                margin: 10,
                padding: 16,
                borderRadius: 20,
@@ -95,18 +102,22 @@ const BarChartPage = (props) => {
                </View>
 
             </View> */}
-     </View>
-  )
+      </View>
+   )
 }
 
 export default BarChartPage
 
 const styles = StyleSheet.create({
-   container:{
+   container: {
       margin: 10,
       padding: 16,
       borderRadius: 20,
       backgroundColor: '#fff',
       elevation: 40, shadowColor: '#000'
-   }
+   },
+   textStyle: {
+      fontWeight: 'bold',
+      color: '#000000'
+   },
 })

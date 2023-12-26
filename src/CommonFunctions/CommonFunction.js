@@ -39,11 +39,15 @@ export function isNullOrEmpty(text) {
 
 export function get(url) {
   console.log("get URL",url)
-  axios.get(url)
+  return axios.get(url)
     .then(function (response) {
+      const result = {
+        isRequestSuccessFull : true,
+        response : response
+      }
       // handle success
-      console.log("get response",JSON.stringify(response));
-      return response
+      //console.log("get response",JSON.stringify(response));
+      return result
     })
     .catch(function (error) {
       // handle error
@@ -57,14 +61,16 @@ export function post(url,payload){
   console.log("Post URL",url)
   console.log("Post Payload",payload)
 
-  axios.post(url,payload)
-  .then(function (response) {
-    console.log("post response",JSON.stringify(response));
-    return response
-  })
-  .catch(function (error) {
-    console.log(error);
-    Alert.alert("Error",error)
-    return error
-  });
+  return axios.post(url,payload)
+    .then(function (response) {
+      // handle success
+      console.log("Post response",JSON.stringify(response));
+      return response
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      Alert.alert("Error",error)
+      return error
+    })
 }
