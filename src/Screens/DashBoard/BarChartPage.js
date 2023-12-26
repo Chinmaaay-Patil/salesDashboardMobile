@@ -4,13 +4,7 @@ import { BarChart } from "react-native-gifted-charts";
 
 const BarChartPage = (props) => {
   return (
-    <View style={{
-        margin: 10,
-        padding: 16,
-        borderRadius: 20,
-        backgroundColor: '#fff',
-        elevation: 40, shadowColor: '#000'
-     }}>
+    <View style={styles.container}>
         <Text style={{ color: '#000000', fontSize: 16, fontWeight: 'bold' }}>
            {props.graphTitle}
         </Text>
@@ -107,4 +101,12 @@ const BarChartPage = (props) => {
 
 export default BarChartPage
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+   container:{
+      margin: 10,
+      padding: 16,
+      borderRadius: 20,
+      backgroundColor: '#fff',
+      elevation: 40, shadowColor: '#000'
+   }
+})

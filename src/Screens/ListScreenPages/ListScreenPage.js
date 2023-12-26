@@ -7,10 +7,32 @@ const ListScreenPage = (props, { route, navigation, }) => {
   const infoData = useSelector((state) => state.infoReducer.infoArray)
   console.log("info screen in list screen------", infoData)
 
+  const gradientBackGroundColor = (value) =>{
+    if(value == 'Demo'){
+      return ['#3763CC', '#94C3FF']
+    }else{
+      if(value == 'NewLead'){
+        return ['#E0D2FF', '#9678DC']
+      }else{
+        if(value == 'CloseLead'){
+          return ['#F5915A', '#FFC693']
+        }else{
+          if(value == 'Quotation'){
+            return ['#F26462', '#F8B9BA']
+          }else{
+            return ['#F26445', '#F8B9ER']
+          }
+        }
+      }
+    }
+  } 
+
   const renderItem = (item) => {
-    console.log("item", item)
+    console.log("item", item.dropDownSOLValue)
+   const color = gradientBackGroundColor(item.dropDownSOLValue)
+   console.log("coloororoor",color)
     return (
-      <LinearGradient colors={['#3763CC', '#94C3FF']} style={{ width: '96%', backgroundColor: '#87CEEB', padding: 10, alignSelf: 'center', borderRadius: 10, margin: 4 }}>
+      <LinearGradient colors={gradientBackGroundColor(item.dropDownSOLValue)} style={{ width: '96%', backgroundColor: '#87CEEB', padding: 10, alignSelf: 'center', borderRadius: 10, margin: 4 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View>
             <View style={{ flexDirection: 'row' }}>

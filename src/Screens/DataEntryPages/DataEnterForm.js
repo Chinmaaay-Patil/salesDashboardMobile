@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { actions } from '../../Redux/Action/ActionIndex'
 import DropdownComponent from '../../CommonComponent/DropDownComponent';
 import { useIsFocused } from '@react-navigation/native';
+import { isNullOrEmpty } from '../../CommonFunctions/CommonFunction';
 
 const DataEnterForm = ({ navigation }) => {
 
@@ -60,7 +61,8 @@ const DataEnterForm = ({ navigation }) => {
     const [isTimePickerVisibleFollowUp, setIsTimePickerVisibleFollowUp] = useState(false)
     const focus = useIsFocused()
     const infoData = useSelector((state) => state.infoReducer.infoArray)
-    const [height,setHeight]=useState(38)
+    const [height, setHeight] = useState(38)
+    const [addressHeight, setAddressHeight] = useState(38)
 
     useEffect(() => {
         setLabName("");
@@ -77,6 +79,7 @@ const DataEnterForm = ({ navigation }) => {
         setDetailOrComment("");
         setFollowUpDate("");
         setHeight(38);
+        setAddressHeight(38);
     }, [focus])
 
 
@@ -105,56 +108,92 @@ const DataEnterForm = ({ navigation }) => {
     const onVersionSlection = (value) => {
         console.log("dropDownVersionValue", value)
         if (value == '1.1') {
-            setAmount('111111')
+            setAmount('11,111')
         } else {
             if (value == '2.2') {
-                setAmount('222222')
+                setAmount('22,222')
             } else {
                 if (value == '3.3') {
-                    setAmount('33333')
+                    setAmount('33,333')
                 } else {
                     if (value == '4.4') {
-                        setAmount('44444')
+                        setAmount('44,444')
                     } else {
-                        setAmount("55555")
+                        setAmount("55,555")
                     }
                 }
             }
         }
     }
 
+    const validation = () => {
+        console.log("validation")
+        let isValid = false;
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (isNullOrEmpty(labName) && isNullOrEmpty(ownerName) && isNullOrEmpty(mobileNo) && isNullOrEmpty(emailId)) {
+            Alert.alert('Please Enter All required fields')
+        } else {
+            if (isNullOrEmpty(labName)) {
+                Alert.alert('Please Enter Lab Name')
+            } else {
+                if (isNullOrEmpty(ownerName)) {
+                    Alert.alert('Please Enter Owner Name')
+                } else {
+                    if (isNullOrEmpty(mobileNo)) {
+                        Alert.alert('Please Enter Mobile No')
+                    } else {
+                        if (isNullOrEmpty(emailId)) {
+                            Alert.alert('Please Enter EmailId')
+                        } else {
+                            if (reg.test(emailId) === false) {
+                                Alert.alert('Please Enter correct EmailId')
+                            } else {
+                                if (isNullOrEmpty(amount)) {
+                                    Alert.alert('Please Enter Amount')
+                                } else {
+                                    if (isNullOrEmpty(dropDownSalesPersonValue)) {
+                                        Alert.alert('Please Select Sales Person Name')
+                                    } else {
+                                        console.log('Validation done')
+                                        isValid = true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        console.log("isvalid", isValid)
+        return isValid;
+    }
+
     const onSaveButtonPress = () => {
         console.log("onSaveButtonPress")
-        // const vali = validation()
+        const vali = validation()
 
-        // if (vali) {
-        Alert.alert(
-            'Save!',
-            'Do you want to Add this Info',
-            [
-                {
-                    text: 'Cancel',
-                    onPress: () => navigation.goBack(),
-                    style: 'cancel',
-                },
-                {
-                    text: 'Yes',
-                    onPress: () => onSave(),
-                    style: 'cancel',
-                },
-            ],
-        );
-        //}
+        if (vali) {
+            Alert.alert(
+                'Save!',
+                'Do you want to Add this Info',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => navigation.goBack(),
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Yes',
+                        onPress: () => onSave(),
+                        style: 'cancel',
+                    },
+                ],
+            );
+        }
     }
 
     const onSave = () => {
         actions.addnewInfo({
-            //   firstName: firstName,
-            //   lastName: lastName,
-            //   dateOfBirth: Dob,
-            //   photoUrl: photo,
-            //   id: 1 + infoData.length,
-            //   dropDownValue:dropDownValue
             labName: labName,
             ownerName: ownerName,
             mobileNo: mobileNo,
@@ -169,7 +208,7 @@ const DataEnterForm = ({ navigation }) => {
             followUpDate: followUpDate,
             id: 1 + infoData.length,
         })
-        navigation.goBack()
+        navigation.navigate('DashBoardFirst');
     }
 
     const handlePhoneNumberChange = (text) => {
@@ -223,24 +262,18 @@ const DataEnterForm = ({ navigation }) => {
                     <TextInputComponent
                         text={'Address'}
                         textStyle={styles.textStyle}
-                        textInputStyle={styles.inputBox}
+                        textInputStyle={[styles.inputBox, { height: addressHeight }]}
                         value={address}
                         onChangeText={(text) => setAddress(text)}
                         //mandatory={true}
                         placeholder={'Enter Address'}
+                        onContentSizeChange={e => setAddressHeight(e.nativeEvent.contentSize.height)}
                     />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                        <Text style={[styles.textStyle, {
-                            position: 'absolute',
-                            top: -14,
-                            left: 10,
-                            zIndex: 100,
-                            backgroundColor: 'white',
-                            paddingHorizontal: 2
-                        }]}>
+                    <View style={styles.datemainViewStyle}>
+                        <Text style={[styles.textStyle, styles.dateInputStyle]}>
                             {/* <Text style={{ color: 'red' }}>* </Text> */}
                             Date</Text>
-                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 38 }]}>
+                        <View style={[styles.inputBox, styles.dateViewStyle]}>
                             <View style={{ width: '85%' }}>
                                 <TextInput
                                     style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
@@ -250,8 +283,8 @@ const DataEnterForm = ({ navigation }) => {
                                     placeholderTextColor={'gray'}
                                 />
                             </View>
-                            <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
+                            <View style={styles.dateTouchView}>
+                                <TouchableOpacity style={styles.dateTouchableStyle}
                                     onPress={() => [setIsTimePickerVisible(true)]}
                                 >
                                     <View style={{ justifyContent: 'flex-end' }}>
@@ -263,7 +296,6 @@ const DataEnterForm = ({ navigation }) => {
                                 isVisible={isTimePickerVisible}
                                 mode="date"
                                 onConfirm={(d) => {
-                                    console.log("on Time confirm");
                                     handleConfirm(d)
                                 }}
                                 maximumDate={new Date()}
@@ -347,31 +379,25 @@ const DataEnterForm = ({ navigation }) => {
                             searchPlaceholder={'Search Sales Person Name'}
                             placeholder={'Select Sales Person Name'}
                             label={'Sales Person Name'}
+                            mandatory={true}
                         />
                     </View>
                     <TextInputComponent
                         text={'Detail or Comment Required'}
                         textStyle={styles.textStyle}
-                        textInputStyle={[styles.inputBox,{height:height}]}
+                        textInputStyle={[styles.inputBox, { height: height }]}
                         value={detailOrComment}
                         onChangeText={(text) => setDetailOrComment(text)}
                         placeholder={'Enter Detail or Comment'}
                         //mandatory={true}
                         numberOfLines={4}
-                        onContentSizeChange={e => [setHeight(e.nativeEvent.contentSize.height),console.log("e.nativeEvent.contentSize.height",e.nativeEvent.contentSize.height)]}
+                        onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height)}
                     />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-                        <Text style={[styles.textStyle, {
-                            position: 'absolute',
-                            top: -14,
-                            left: 10,
-                            zIndex: 100,
-                            backgroundColor: 'white',
-                            paddingHorizontal: 2
-                        }]}>
+                    <View style={styles.datemainViewStyle}>
+                        <Text style={[styles.textStyle, styles.dateInputStyle]}>
                             {/* <Text style={{ color: 'red' }}>* </Text> */}
                             Follow up Date</Text>
-                        <View style={[styles.inputBox, { flexDirection: 'row', padding: 0, height: 38 }]}>
+                        <View style={[styles.inputBox, styles.dateViewStyle]}>
                             <View style={{ width: '85%' }}>
                                 <TextInput
                                     style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
@@ -381,8 +407,8 @@ const DataEnterForm = ({ navigation }) => {
                                     placeholderTextColor={'gray'}
                                 />
                             </View>
-                            <View style={{ width: '10%', marginLeft: 20, justifyContent: 'center' }}>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignSelf: 'flex-ends' }}
+                            <View style={styles.dateTouchView}>
+                                <TouchableOpacity style={styles.dateTouchableStyle}
                                     onPress={() => setIsTimePickerVisibleFollowUp(true)}
                                 >
                                     <View style={{ justifyContent: 'flex-end' }}>
@@ -394,7 +420,6 @@ const DataEnterForm = ({ navigation }) => {
                                 isVisible={isTimePickerVisibleFollowUp}
                                 mode="date"
                                 onConfirm={(date) => {
-                                    console.log("on Time confirm");
                                     handleConfirmForFollowup(date)
                                 }}
                                 minimumDate={new Date()}
@@ -406,7 +431,7 @@ const DataEnterForm = ({ navigation }) => {
                         <TouchableOpacity style={{ alignItems: 'center', alignContent: 'center' }}
                             onPress={() => onSaveButtonPress()}
                         >
-                            <Text style={[styles.textStyle, { marginTop: 8, fontSize: 20, color:'#FFFFFF', fontWeight:'500', fontSize:14 }]}>SAVE</Text>
+                            <Text style={[styles.textStyle, { marginTop: 8, fontSize: 20, color: '#FFFFFF', fontWeight: '500', fontSize: 14 }]}>SAVE</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -424,7 +449,7 @@ const styles = StyleSheet.create({
         color: '#000000',
         marginTop: 10,
         fontFamily: 'Roboto',
-        fontSize:12
+        fontSize: 12
     },
     inputBox: {
         width: '100%',
@@ -437,6 +462,33 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         color: '#000000',
         fontFamily: 'Roboto',
-        fontSize:12
+        fontSize: 12
     },
+    dateInputStyle: {
+        position: 'absolute',
+        top: -14,
+        left: 10,
+        zIndex: 100,
+        backgroundColor: 'white',
+        paddingHorizontal: 2
+    },
+    dateTouchableStyle: {
+        justifyContent: 'center',
+        alignSelf: 'flex-ends'
+    },
+    dateViewStyle: {
+        flexDirection: 'row',
+        padding: 0,
+        height: 38
+    },
+    datemainViewStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 20
+    },
+    dateTouchView: {
+        width: '10%',
+        marginLeft: 20,
+        justifyContent: 'center'
+    }
 })

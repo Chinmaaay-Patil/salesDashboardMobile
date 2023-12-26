@@ -95,20 +95,19 @@ const PieChartPage = (props) => {
         return (
             <>
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <View
-                        style={{
+                    <View style={{
                             flexDirection: 'row',
                             alignItems: 'center',
                             width: 120,
-                            marginRight: 30,
-                        }}>
-                        {renderDot(props.renderDotColor1)}
-                        <Text style={{ color: '#000000' }}>{props.subText1}</Text>
-                    </View>
-                    <View
-                        style={{ flexDirection: 'row', alignItems: 'center', width: 120 }}>
+                            marginRight: 40,
+                        }}
+                        >
                         {renderDot(props.renderDotColor2)}
                         <Text style={{ color: '#000000' }}>{props.subText2}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', width: 120 }}>
+                        {renderDot(props.renderDotColor1)}
+                        <Text style={{ color: '#000000' }}>{props.subText1}</Text>
                     </View>
                 </View>
             </>
@@ -116,13 +115,7 @@ const PieChartPage = (props) => {
     };
     return (
         <View
-            style={{
-                margin: 10,
-                padding: 16,
-                borderRadius: 20,
-                backgroundColor: '#fff',
-                elevation: 40, shadowColor: '#000'
-            }}>
+            style={styles.container}>
             <Text style={{ color: '#000000', fontSize: 16, fontWeight: 'bold' }}>
                 {props.graphTitle}
             </Text>
@@ -158,11 +151,21 @@ const PieChartPage = (props) => {
                     strokeWidth={4}
                 />
             </View>
+            <View style={{marginRight:25}}>
             {renderLegendComponent()}
+            </View>
         </View>
     )
 }
 
 export default PieChartPage
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container:{
+        margin: 10,
+        padding: 16,
+        borderRadius: 20,
+        backgroundColor: '#fff',
+        elevation: 40, shadowColor: '#000'
+    }
+})

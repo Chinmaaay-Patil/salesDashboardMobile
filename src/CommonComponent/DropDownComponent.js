@@ -9,7 +9,11 @@ const DropdownComponent = (props) => {
 
     return (
       <Text style={[styles.label]}>
-        {/* <Text style={{ color: 'red' }}>* </Text> */}
+        {
+          props.mandatory && (
+            <Text style={{ color: 'red' }}>* </Text>
+          )
+        }
         {props.label}
       </Text>
     );

@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather'
 import { Backdrop } from "react-native-backdrop";
-import { BarChart, PieChart } from "react-native-gifted-charts";
-import { StackedBarChart, XAxis, YAxis } from 'react-native-svg-charts';
 import PieChartPage from './PieChartPage';
 import BarChartPage from './BarChartPage';
 
@@ -13,7 +11,7 @@ const DashBoardFirstPage = ({ navigation }) => {
 
    const [visible, setVisible] = useState(false);
    const infoData = useSelector((state) => state.infoReducer.infoArray)
-   console.log("info screen in dash screen------", infoData)
+   //console.log("info screen in dash screen------", infoData)
 
    const pieData = [
       {
@@ -112,13 +110,6 @@ const DashBoardFirstPage = ({ navigation }) => {
       }
    }
 
-   const handleOpen = () => {
-      setVisible(true);
-   };
-
-   const handleClose = () => {
-      setVisible(false);
-   };
 
    return (
       <View style={{ backgroundColor: '#ffffff', flex: 1 }}>
@@ -127,57 +118,45 @@ const DashBoardFirstPage = ({ navigation }) => {
          </View> */}
          <ScrollView>
             <View style={{ flexDirection: 'row' }}>
-               <TouchableOpacity
-                  //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('NewLead',['#E0D2FF', '#9678DC'])}
-               >
+               <TouchableOpacity onPress={() => navigationToListScreen('NewLead',['#E0D2FF', '#9678DC'])}>
                   <LinearGradient colors={['#E0D2FF', '#9678DC']} style={styles.cardStyle}>
-                     <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'New Lead'}</Text>
-                     <View style={{ alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 }}>
-                        <Image source={require('../../Assets/customer-engagement.png')} style={{ width: 50, height: 50, alignSelf: 'center' }} />
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' }}>{'2,333'}</Text>
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' }}>{0} Opportunities</Text>
+                     <Text style={styles.cardTitleText}>{'New Lead'}</Text>
+                     <View style={styles.cardSubView}>
+                        <Image source={require('../../Assets/customer-engagement.png')} style={styles.cardImageStyle} />
+                        <Text style={styles.cardCountText}>{'2,333'}</Text>
+                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
-               <TouchableOpacity
-                  //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('Quotation',['#F26462', '#F8B9BA'])}
-               >
+               <TouchableOpacity onPress={() => navigationToListScreen('Quotation',['#F26462', '#F8B9BA'])}>
                   <LinearGradient colors={['#F26462', '#F8B9BA']} style={styles.cardStyle}>
-                     <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Quotation'}</Text>
-                     <View style={{ alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 }}>
-                        <Image source={require('../../Assets/quotation.png')} style={{ width: 50, height: 50, alignSelf: 'center' }} />
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' }}>{'4,123'}</Text>
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' }}>{0} Opportunities</Text>
+                     <Text style={styles.cardTitleText}>{'Quotation'}</Text>
+                     <View style={styles.cardSubView}>
+                        <Image source={require('../../Assets/quotation.png')} style={styles.cardImageStyle} />
+                        <Text style={styles.cardCountText}>{'4,123'}</Text>
+                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
             </View>
             <View style={{ flexDirection: 'row' }}>
-               <TouchableOpacity
-                  //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('Demo',['#3763CC', '#94C3FF'])}
-               >
+               <TouchableOpacity onPress={() => navigationToListScreen('Demo',['#3763CC', '#94C3FF'])}>
                   <LinearGradient colors={['#3763CC', '#94C3FF']} style={styles.cardStyle}>
-                     <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Demo'}</Text>
-                     <View style={{ alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 }}>
-                        <Image source={require('../../Assets/demo.png')} style={{ width: 50, height: 50, alignSelf: 'center' }} />
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' }}>{'4,123'}</Text>
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' }}>{0} Opportunities</Text>
+                     <Text style={styles.cardTitleText}>{'Demo'}</Text>
+                     <View style={styles.cardSubView}>
+                        <Image source={require('../../Assets/demo.png')} style={styles.cardImageStyle} />
+                        <Text style={styles.cardCountText}>{'4,123'}</Text>
+                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
-               <TouchableOpacity
-                  //style={styles.cardStyle}
-                  onPress={() => navigationToListScreen('CloseLead',['#F5915A', '#FFC693'])}
-               >
+               <TouchableOpacity onPress={() => navigationToListScreen('CloseLead',['#F5915A', '#FFC693'])}>
                   <LinearGradient colors={['#F5915A', '#FFC693']} style={styles.cardStyle}>
-                     <Text style={{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' }}>{'Close Lead'}</Text>
-                     <View style={{ alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 }}>
-                        <Image source={require('../../Assets/Group.png')} style={{ width: 50, height: 50, alignSelf: 'center' }} />
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' }}>{'3,211'}</Text>
-                        <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' }}>{0} Opportunities</Text>
+                     <Text style={styles.cardTitleText}>{'Close Lead'}</Text>
+                     <View style={styles.cardSubView}>
+                        <Image source={require('../../Assets/Group.png')} style={styles.cardImageStyle} />
+                        <Text style={styles.cardCountText}>{'3,211'}</Text>
+                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
@@ -185,8 +164,8 @@ const DashBoardFirstPage = ({ navigation }) => {
             <View>
                <PieChartPage
                pieData={pieData}
-               subText1={'Total Count: 40%'}
-               subText2={'Total Amount: 3%'}
+               subText1={'Total Amount: '+ pieData[0].value +'%'}
+               subText2={'Total Amount: ' + pieData[1].value + '%'}
                innerCircleText1={'Count &'}
                innerCircleText2={'Amount'}
                graphTitle={'Sales growth by Market Segment'}
@@ -204,8 +183,8 @@ const DashBoardFirstPage = ({ navigation }) => {
 
          <Backdrop
             visible={visible}
-            handleOpen={handleOpen}
-            handleClose={handleClose}
+            handleOpen={()=>setVisible(true)}
+            handleClose={()=>setVisible(false)}
             onClose={() => { }}
             swipeConfig={{
                velocityThreshold: 0.3,
@@ -231,6 +210,11 @@ const DashBoardFirstPage = ({ navigation }) => {
 export default DashBoardFirstPage
 
 const styles = StyleSheet.create({
-   cardStyle: { height: 180, width: 180, marginTop: 20, margin: 8, borderRadius: 20 },
-   cardDivStyle: { height: '50%', alignItems: 'center', justifyContent: 'center' }
+   cardStyle: { height: 180, width: 180, marginTop: 10, margin: 8, borderRadius: 20 },
+   cardDivStyle: { height: '50%', alignItems: 'center', justifyContent: 'center' },
+   cardTitleText:{ padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' },
+   cardSubView:{ alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 },
+   cardCountText:{ fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' },
+   cardSubText:{ fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' },
+   cardImageStyle:{ width: 50, height: 50, alignSelf: 'center' }
 })
