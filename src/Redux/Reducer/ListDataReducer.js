@@ -9,7 +9,7 @@ export const listDataStateSlice = createSlice({
     initialState: init_state,
     reducers: {
         listDataReducer: (state, data) => {
-            console.log("data.payload.data",JSON.stringify(data.payload))
+            //console.log("data.payload.data",JSON.stringify(data.payload))
             const temp = data.payload.data
             return {
                 ...state,

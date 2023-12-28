@@ -179,7 +179,7 @@ export default function DataEnterForm({ navigation }) {
           />
           </View>
 
-          <View style={{ marginTop: 150, backgroundColor: '#0096FF', height: 40, borderRadius: 20 }}>
+          <View style={{ marginTop: 150, backgroundColor: '#0096FF', height: 40, borderRadius: 10 }}>
             <TouchableOpacity style={{ alignItems: 'center', alignContent: 'center' }}
               onPress={() => onSaveButtonPress()}
             >

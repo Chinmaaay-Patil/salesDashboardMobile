@@ -9,7 +9,7 @@ export const mobileNumberStateSlice = createSlice({
     initialState: init_state,
     reducers: {
         mobileNumberReducer: (state, data) => {
-            console.log("data.payload.data",typeof data.payload.mobileNumber)
+            //console.log("data.payload.data",typeof data.payload.mobileNumber)
             //state.mobileNumber = data.payload.mobileNumber
             const temp = data.payload.mobileNumber
             return {

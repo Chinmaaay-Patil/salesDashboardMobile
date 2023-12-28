@@ -8,11 +8,13 @@ export async function DashBoardCardData(data) {
 
     try {
         const response = await get(apiUrl);
+        console.log("res",response)
         await dashBoardAction(response.response)
         return response;
     } catch (error) {
         console.error("Dashboard error:", error);
         // Handle errors here
-        throw error;
+        //throw error;
+        return error
     }
 }

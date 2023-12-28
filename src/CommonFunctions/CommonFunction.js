@@ -52,7 +52,7 @@ export function get(url) {
     .catch(function (error) {
       // handle error
       console.log(error);
-      Alert.alert("Error",error)
+      //Alert.alert("Error",error)
       return error
     })
 }

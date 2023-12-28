@@ -3,7 +3,7 @@ import React from 'react'
 import { PieChart } from "react-native-gifted-charts";
 
 const PieChartPage = (props) => {
-    //console.log("subText1",props.pieData)
+    console.log("subText1",props.pieData)
 
     // const data = [
     //     {
@@ -160,7 +160,7 @@ const PieChartPage = (props) => {
            </View> 
             ) : (
                 <View style={{alignItems:'center',height:200,justifyContent:'center'}}>
-                    <Image source={require('../../Assets/file-not-found.png')} style={{ width: 100, height: 100 }} />
+                    <Image source={require('../../Assets/file_not_found.jpg')} style={{ width: 100, height: 100 }} />
                     <Text style={[styles.textStyle, { marginTop: -10 }]}>NO DATA AVAILABLE !!</Text>
                  </View>
             )
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     container:{
         margin: 10,
         padding: 16,
-        borderRadius: 20,
+        borderRadius: 10,
         backgroundColor: '#fff',
         elevation: 40, shadowColor: '#000'
     },

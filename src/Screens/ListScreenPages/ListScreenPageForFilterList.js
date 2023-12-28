@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView, StatusBar, Image } from
 import React from 'react'
 import { useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
+import moment from 'moment';
 
 const ListScreenPage = (props, { route, navigation, }) => {
     const infoData = useSelector((state) => state.infoReducer.infoArray)
@@ -24,15 +25,15 @@ const ListScreenPage = (props, { route, navigation, }) => {
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Date : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.date}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{moment(item.createddate).format('YYYY-MM-DD')}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Mobile No : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.mobileNo}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.mobile}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Email Id : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.emailId}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.email}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Address : </Text>
@@ -40,15 +41,15 @@ const ListScreenPage = (props, { route, navigation, }) => {
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Source Person Name : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dropDownSPNValue}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.salesPersonName}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Version : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.dropDownVersionValue}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.version}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Amount : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.amount}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.projectedAmount}</Text>
                         </View>
                     </View>
                     {
@@ -74,7 +75,7 @@ const ListScreenPage = (props, { route, navigation, }) => {
                     keyExtractor={item => item.id}
                 /> :
                 <View style={{ alignSelf: 'center', marginTop: '50%' }}>
-                    <Image source={require('../../Assets/file-not-found.png')} style={{ width: 150, height: 150 }} />
+                    <Image source={require('../../Assets/file_not_found.jpg')} style={{ width: 150, height: 150 }} />
                     <Text style={[styles.textStyle, { marginTop: -18 }]}>NO DATA AVAILABLE !!</Text>
                 </View>
             }

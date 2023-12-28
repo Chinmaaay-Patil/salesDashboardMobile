@@ -9,16 +9,16 @@ import BarChartPage from './BarChartPage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import { DashBoardCardData } from '../../Services/DashBoardService';
+import { listData } from '../../Services/ListDataService';
 
 const DashBoardFirstPage = ({ navigation }) => {
 
    const [visible, setVisible] = useState(false);
-   const [isLoading, setIsLoading] = useState(true)
-   const [fromDate, setFromDate] = useState('')
+   const [isLoading, setIsLoading] = useState(false)
+   const [fromDate, setFromDate] = useState(new Date)
    const [isTimePickerVisibleForFromDate, setIsTimePickerVisibleForFromDate] = useState(false)
-   const [toDate, setToDate] = useState('')
+   const [toDate, setToDate] = useState(new Date())
    const [isTimePickerVisibleForToDate, setIsTimePickerVisibleForToDate] = useState(false)
-   const infoData = useSelector((state) => state.infoReducer.infoArray)
    const dashBoardData = useSelector((state) => state.DashBoardReducer)
 
    useEffect(() => {
@@ -30,8 +30,30 @@ const DashBoardFirstPage = ({ navigation }) => {
       var d = new Date();
       const tempdate = d.setDate(d.getDate() - 7);
       const data = {
-         fromDate: moment(tempdate).format('YYYY-MM-DD') + ' 00:00:01',
+         fromDate: moment(new Date).format('YYYY-MM-DD') + ' 00:00:01',
          toDate: moment(new Date).format('YYYY-MM-DD') + ' 00:00:01',
+         salesPersonID: 0
+      }
+      try {
+         const response = await DashBoardCardData(data);
+         console.log("jnedanjansdnjsnjdc",response)
+         setVisible(false)
+         if (response.isRequestSuccessFull) {
+            setIsLoading(false)
+         }
+         // Handling the response data here
+      } catch (error) {
+         // Handling errors here
+      }
+   }
+
+   const applyFilter = async () => {
+      setIsLoading(true)
+      const todateFormatting = moment(toDate).format('YYYY-MM-DD')
+      const formdateFormatting = moment(fromDate).format('YYYY-MM-DD')
+      const data = {
+         fromDate: formdateFormatting + ' 00:00:01',
+         toDate: todateFormatting + ' 00:00:01',
          salesPersonID: 0
       }
       try {
@@ -46,21 +68,27 @@ const DashBoardFirstPage = ({ navigation }) => {
       }
    }
 
-   const applyFilter = async () => {
-     // setIsLoading(true)
+   const onCardClick = async () => {
+      setIsLoading(true)
       const todateFormatting = moment(toDate).format('YYYY-MM-DD')
+      console.log("toDate",toDate)
       const formdateFormatting = moment(fromDate).format('YYYY-MM-DD')
+      console.log("fromDate",fromDate)
       const data = {
          fromDate: formdateFormatting + ' 00:00:01',
          toDate: todateFormatting + ' 00:00:01',
-         salesPersonID: 0
+         salesPersonID: 0,
+         versionID: 0,
+         stateID: 0
       }
       try {
-         const response = await DashBoardCardData(data);
-         setVisible(false)
+         const response = await listData(data);
+         //console.log("response:--", JSON.stringify(response))
          if (response.isRequestSuccessFull) {
             setIsLoading(false)
+            return response.response
          }
+         setVisible(false)
          // Handling the response data here
       } catch (error) {
          // Handling errors here
@@ -102,17 +130,16 @@ const DashBoardFirstPage = ({ navigation }) => {
       )
    }
 
-   const navigationToListScreen = (value, colorArray) => {
-      const filter = infoData.filter((item) => item.dropDownSOLValue == value)
+   const navigationToListScreen = async(value, colorArray) => {
+      const result = await onCardClick()
+      console.log("result : === ",JSON.stringify(result))
+      const filter = result.data.filter((item) => item.stateName == value)
       console.log("filter", filter, value)
-      navigation.navigate(
-         "DashBoardFirst", {
-         screen: "ListScreenPageForFilterData",
-         params: {
+      navigation.navigate("ListScreenPageForFilterData",{
             listData: filter,
             gradientColor: colorArray
          },
-      }
+      
       )
    }
 
@@ -157,9 +184,9 @@ const DashBoardFirstPage = ({ navigation }) => {
                <View style={{ marginLeft: 320 }}>
                   <FilterModel />
                </View>
-               <ScrollView>
+               <ScrollView style={{marginBottom:20}}>
                   <View style={{ flexDirection: 'row' }}>
-                     <TouchableOpacity onPress={() => navigationToListScreen('NewLead', ['#E0D2FF', '#9678DC'])}>
+                     <TouchableOpacity onPress={() => navigationToListScreen('New Lead', ['#E0D2FF', '#9678DC'])}>
                         <LinearGradient colors={['#E0D2FF', '#9678DC']} style={styles.cardStyle}>
                            <Text style={styles.cardTitleText}>{'New Lead'}</Text>
                            <View style={styles.cardSubView}>
@@ -191,7 +218,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                            </View>
                         </LinearGradient>
                      </TouchableOpacity>
-                     <TouchableOpacity onPress={() => navigationToListScreen('CloseLead', ['#F5915A', '#FFC693'])}>
+                     <TouchableOpacity onPress={() => navigationToListScreen('Closed Leads', ['#F5915A', '#FFC693'])}>
                         <LinearGradient colors={['#F5915A', '#FFC693']} style={styles.cardStyle}>
                            <Text style={styles.cardTitleText}>{'Close Lead'}</Text>
                            <View style={styles.cardSubView}>
@@ -206,12 +233,12 @@ const DashBoardFirstPage = ({ navigation }) => {
 
                      <PieChartPage
                         pieData={dashBoardData?.pieData}
-                        subText1={dashBoardData?.pieData && dashBoardData?.pieData[0]?.value ? 'Total Amount: ' + dashBoardData.pieData[0].value + "%" : 0}
+                        subText1={dashBoardData?.pieData && dashBoardData?.pieData[0]?.value ? 'Total Count: ' + dashBoardData.pieData[0].value + "%" : 0}
                         subText2={dashBoardData?.pieData && dashBoardData?.pieData[1]?.value ? 'Total Amount: ' + dashBoardData.pieData[1].value + "%" : 0}
                         innerCircleText1={'Count &'}
                         innerCircleText2={'Amount'}
                         graphTitle={'Sales growth by Market Segment'}
-                        renderDotColor1={'#9A7DDE'}
+                        renderDotColor1={'#987BDD'}
                         renderDotColor2={'#3763CC'}
                      />
 
@@ -311,14 +338,14 @@ const DashBoardFirstPage = ({ navigation }) => {
                            </View>
                         </View>
                      </View>
-                     <View style={{ marginTop: 200 - 130, paddingHorizontal: 20, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
+                     <View style={{ marginTop: 200 - 150, paddingHorizontal: 20, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
                         <TouchableOpacity style={{ width: '48%' }} onPress={() => applyFilter()}>
-                           <View style={{ borderRadius: 20, borderWidth: 1, borderColor: '#000', backgroundColor: '#0A57A7', width: '100%', padding: 10 }}>
+                           <View style={{ borderRadius: 10, borderWidth: 1, borderColor: '#000', backgroundColor: '#0A57A7', width: '100%', padding: 10 }}>
                               <Text style={[styles.textStyle, { textAlign: 'center', color: '#fff' }]}>Apply</Text>
                            </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ width: '48%' }} onPress={() => { fetchData() }}>
-                           <View style={{ borderRadius: 20, borderWidth: 1, borderColor: '#000', backgroundColor: '#fff', width: '100%', padding: 10 }}>
+                           <View style={{ borderRadius: 10, borderWidth: 1, borderColor: '#000', backgroundColor: '#fff', width: '100%', padding: 10 }}>
                               <Text style={[styles.textStyle, { textAlign: 'center' }]}>Clear</Text>
                            </View>
                         </TouchableOpacity>
@@ -334,7 +361,7 @@ const DashBoardFirstPage = ({ navigation }) => {
 export default DashBoardFirstPage
 
 const styles = StyleSheet.create({
-   cardStyle: { height: 180, width: 180, marginTop: 10, margin: 8, borderRadius: 20 },
+   cardStyle: { height: 180, width: 180, marginTop: 8, margin: 8, borderRadius: 10 },
    cardDivStyle: { height: '50%', alignItems: 'center', justifyContent: 'center' },
    cardTitleText: { padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' },
    cardSubView: { alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 },

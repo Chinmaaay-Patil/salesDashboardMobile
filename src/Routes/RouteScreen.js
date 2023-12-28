@@ -3,8 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
-import LoginScreen from '../Screens/Login/LoginScreen';
-import OtpScreen from '../Screens/Login/OtpScreen';
 import DashBoardFirstPage from '../Screens/DashBoard/DashBoardFirstPage';
 import DataEnterForm from '../Screens/DataEntryPages/DataEnterForm';
 import ListScreenPage from '../Screens/ListScreenPages/ListScreenPage';
@@ -20,7 +18,7 @@ const Routes = () => {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="DashBoardFirstScreen" component={DashBoardFirstPage} options={{ title: 'Dashboard', headerTintColor: '#000000' }} />
-        <Stack.Screen name="ListScreenPageForFilterData" component={ListScreenPageForFilter} />
+        {/* <Stack.Screen name="ListScreenPageForFilterData" component={ListScreenPageForFilter} /> */}
       </Stack.Navigator>
     );
   }
@@ -45,14 +43,8 @@ const Routes = () => {
     );
   }
 
-  return (
-    <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="OTPScreen" component={OtpScreen} options={{ headerShown: false }} /> */}
-        {/* <Stack.Screen name="DashBoardFirstScreen" component={DashBoardFirstPage} options={{ title: 'Dashboard', headerTintColor: '#000000' }} />
-        <Stack.Screen name="DataEntryForm" component={DataEnterForm} options={{ headerShown: true }} /> */}
-      {/* </Stack.Navigator> */}
+  const drawerNavigatorStack = () =>{
+    return(
       <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
@@ -89,6 +81,30 @@ const Routes = () => {
           }}
           component={ListScreenThirdStack} />
       </Drawer.Navigator>
+    )
+  }
+
+  return (
+    <NavigationContainer>
+      {/* <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="OTPScreen" component={OtpScreen} options={{ headerShown: false }} /> */}
+        {/* <Stack.Screen name="DashBoardFirstScreen" component={DashBoardFirstPage} options={{ title: 'Dashboard', headerTintColor: '#000000' }} />
+        <Stack.Screen name="DataEntryForm" component={DataEnterForm} options={{ headerShown: true }} /> */}
+      {/* </Stack.Navigator> */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Dashboard"
+          component={drawerNavigatorStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen name="ListScreenPageForFilterData" component={ListScreenPageForFilter}
+         options={{
+          title: 'List Screen'
+        }} />
+        </Stack.Navigator>
     </NavigationContainer>
   )
 }

@@ -427,7 +427,7 @@ const DataEnterForm = ({ navigation }) => {
                             />
                         </View>
                     </View>
-                    <View style={{ marginTop: 40, backgroundColor: '#0A57A7', height: 40, borderRadius: 20 }}>
+                    <View style={{ marginTop: 40, backgroundColor: '#0A57A7', height: 40, borderRadius: 10 }}>
                         <TouchableOpacity style={{ alignItems: 'center', alignContent: 'center' }}
                             onPress={() => onSaveButtonPress()}
                         >

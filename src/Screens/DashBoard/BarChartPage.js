@@ -9,18 +9,7 @@ const BarChartPage = (props) => {
             {props.graphTitle}
          </Text>
          <View style={{ alignItems: 'center', paddingVertical: 20 }}>
-            {/* <BarChart
-              width={280}
-              //rotateLabel
-              noOfSections={3}
-              spacing={75}
-              stackData={stackData}
-              barWidth={35}
-              //rotateLabel
-              labelWidth={100}
-              initialSpacing={3}
-              barBorderRadius={6}
-           /> */}
+            
             {props.stackData.length > 0 ?
                <BarChart
                   width={260}
@@ -37,7 +26,7 @@ const BarChartPage = (props) => {
                />
                :
                <View style={{ alignItems: 'center', height: 200, justifyContent: 'center' }}>
-                  <Image source={require('../../Assets/file-not-found.png')} style={{ width: 100, height: 100 }} />
+                  <Image source={require('../../Assets/file_not_found.jpg')} style={{ width: 100, height: 100 }} />
                   <Text style={[styles.textStyle, { marginTop: -10 }]}>NO DATA AVAILABLE !!</Text>
                </View>
             }
@@ -112,7 +101,7 @@ const styles = StyleSheet.create({
    container: {
       margin: 10,
       padding: 16,
-      borderRadius: 20,
+      borderRadius: 10,
       backgroundColor: '#fff',
       elevation: 40, shadowColor: '#000'
    },
