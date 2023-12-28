@@ -3,7 +3,7 @@ import React from 'react'
 import { PieChart } from "react-native-gifted-charts";
 
 const PieChartPage = (props) => {
-    console.log("subText1",props.pieData)
+    //console.log("subText1",props.pieData)
 
     // const data = [
     //     {

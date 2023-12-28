@@ -51,9 +51,12 @@ export function get(url) {
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
-      //Alert.alert("Error",error)
-      return error
+      const result = {
+        isRequestSuccessFull : false,
+        error : error
+      }
+      console.log("error",error);
+      return result
     })
 }
 
@@ -65,12 +68,19 @@ export function post(url,payload){
     .then(function (response) {
       // handle success
       console.log("Post response",JSON.stringify(response));
-      return response
+      const result = {
+        isRequestSuccessFull : true,
+        response : response
+      }
+      return result
     })
     .catch(function (error) {
       // handle error
-      console.log(error);
-      Alert.alert("Error",error)
-      return error
+      const result = {
+        isRequestSuccessFull : false,
+        error : error
+      }
+      console.log("error",error);
+      return result
     })
 }

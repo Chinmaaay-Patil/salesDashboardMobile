@@ -6,9 +6,13 @@ export async function listData(data) {
 
     try {
         const response = await get(url);
-       // console.log("first listData", JSON.stringify(response))
-        listDataAction(response.response)
-        return response;
+        // console.log("first listData", JSON.stringify(response))
+        if (response.isRequestSuccessFull) {
+            listDataAction(response.response)
+            return response
+        } else {
+            return response
+        }
     } catch (error) {
         console.error("Dashboard error:", error);
         // Handle errors here

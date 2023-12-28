@@ -11,7 +11,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 const ListScreenPage = (props, { route, navigation, }) => {
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const listDataFromReducer = useSelector((state) => state.listDataStateReducer.listData)
   //console.log("listData:-----", JSON.stringify(listDataFromReducer))
   const [visible, setVisible] = useState(false);
@@ -27,7 +27,7 @@ const ListScreenPage = (props, { route, navigation, }) => {
 
 
   const fetchData = async () => {
-    setIsLoading(true)
+    //setIsLoading(true)
     var d = new Date();
     const tempdate = d.setDate(d.getDate() - 7);
     const data = {
@@ -43,16 +43,20 @@ const ListScreenPage = (props, { route, navigation, }) => {
       //console.log("fetchData result:-", JSON.stringify(response))
       if (response.isRequestSuccessFull) {
         setIsLoading(false)
-      }
+      }else {
+        setIsLoading(false)
+        Alert.alert("Error", response.error.message ? response.error.message : "")
+     }
       setVisible(false)
       // Handling the response data here
     } catch (error) {
       // Handling errors here
+      Alert.alert("Catch Error")
     }
   }
 
   const applyFilter = async () => {
-    setIsLoading(true)
+    
     const todateFormatting = moment(toDate).format('YYYY-MM-DD')
     const formdateFormatting = moment(fromDate).format('YYYY-MM-DD')
     const data = {
@@ -63,14 +67,19 @@ const ListScreenPage = (props, { route, navigation, }) => {
       stateID: 0
     }
     try {
+      setIsLoading(true)
       const response = await listData(data);
       if (response.isRequestSuccessFull) {
         setIsLoading(false)
-      }
+      }else {
+        setIsLoading(false)
+        Alert.alert("Error", response.error.message ? response.error.message : "")
+     }
       setVisible(false)
       // Handling the response data here
     } catch (error) {
       // Handling errors here
+      Alert.alert("Catch Error")
     }
   }
 
@@ -245,9 +254,9 @@ const ListScreenPage = (props, { route, navigation, }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading ?
+      {isLoading &&
         <ActivityIndicator color={"#000"} size="large" />
-        :
+      }
         <View>
           <View style={{ marginLeft: 320 }}>
             <FilterModel />
@@ -265,7 +274,7 @@ const ListScreenPage = (props, { route, navigation, }) => {
             </View>
           }
         </View>
-      }
+      
       <Backdrop
         visible={visible}
         handleOpen={() => setVisible(true)}

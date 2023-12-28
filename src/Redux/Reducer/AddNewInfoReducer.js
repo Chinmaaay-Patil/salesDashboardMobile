@@ -10,10 +10,10 @@ export const infoSlice = createSlice({
     initialState: init_state,
     reducers: {
         addNewInfoReducer: (state, data) => {
-            console.log("data in info new reducer", JSON.stringify(data))
+            //console.log("data in info new reducer", JSON.stringify(data))
             const temp = _.cloneDeep(state.infoArray)
             temp.push(data.payload)
-            console.log("temp----", temp)
+            //console.log("temp----", temp)
             return {
                 ...state,
                 infoArray: temp,

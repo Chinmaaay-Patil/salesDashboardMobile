@@ -1,16 +1,12 @@
 import { StyleSheet, Text, View, FlatList, SafeAreaView, StatusBar, Image } from 'react-native'
 import React from 'react'
-import { useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 
 const ListScreenPage = (props, { route, navigation, }) => {
-    const infoData = useSelector((state) => state.infoReducer.infoArray)
-    console.log("info screen in list screen------", infoData)
-    console.log("p==========", props.route.params)
 
     const renderItem = (item) => {
-        console.log("item", item)
+        //console.log("item", item)
         return (
             <LinearGradient colors={props.route.params ? props.route.params.gradientColor : ['#3763CC', '#94C3FF']} style={{ width: '96%', backgroundColor: '#87CEEB', padding: 10, alignSelf: 'center', borderRadius: 10, margin: 4 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
