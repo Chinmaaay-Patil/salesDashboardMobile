@@ -32,8 +32,8 @@ const DropdownComponent = (props) => {
         data={props.data}
         //search
         maxHeight={200}
-        labelField="label"
-        valueField="value"
+        labelField={props.labelField ? props.labelField : "label"}
+        valueField={props.valueField ? props.valueField : "value"}
         placeholder={!props.isFocus ? props.placeholder : '...'}
         searchPlaceholder={props.searchPlaceholder}
         value={props.value}

@@ -39,7 +39,13 @@ export function isNullOrEmpty(text) {
 
 export function get(url) {
   console.log("get URL",url)
-  return axios.get(url)
+  return axios({
+    method: 'get',
+    url: url,
+    headers: {
+      'Content-Type': 'application/json' // Setting Content-Type for a GET request (if needed)
+    }
+  })
     .then(function (response) {
       const result = {
         isRequestSuccessFull : true,
@@ -64,7 +70,14 @@ export function post(url,payload){
   console.log("Post URL",url)
   console.log("Post Payload",payload)
 
-  return axios.post(url,payload)
+  return axios({
+    method: 'post', // or 'get', 'put', 'delete', etc.
+    url: url,
+    data: payload,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
     .then(function (response) {
       // handle success
       console.log("Post response",JSON.stringify(response));

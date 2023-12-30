@@ -9,6 +9,8 @@ import { actions } from '../../Redux/Action/ActionIndex'
 import DropdownComponent from '../../CommonComponent/DropDownComponent';
 import { useIsFocused } from '@react-navigation/native';
 import { isNullOrEmpty } from '../../CommonFunctions/CommonFunction';
+import { dataEnter } from '../../Services/DataEnterService';
+import { DashBoardCardData } from '../../Services/DashBoardService';
 
 const DataEnterForm = ({ navigation }) => {
 
@@ -17,52 +19,31 @@ const DataEnterForm = ({ navigation }) => {
     const [mobileNo, setMobileNo] = useState('')
     const [emailId, setEmailId] = useState('')
     const [address, setAddress] = useState('')
-    const [date, setDate] = useState('')
+    const d = new Date;
+    const dateString = d.toISOString();
+    const [date, setDate] = useState(dateString)
     const [isTimePickerVisible, setIsTimePickerVisible] = useState(false)
-    const [dropDownSOLList, setDropDownSOLList] = useState([
-        { label: 'Quotation', value: 'Quotation' },
-        { label: 'Sales', value: 'Sales' },
-        { label: 'Demo', value: 'Demo' },
-        { label: 'New Lead', value: 'NewLead' },
-        { label: 'Close Lead', value: 'CloseLead' }
-    ]);
     const [openSOLDropDown, setOpenSOLDropDown] = useState(false);
     const [dropDownSOLValue, setDropDownSOLValue] = useState(null);
-    const [dropDownSPNList, setDropDownSPNList] = useState([
-        { label: 'ABC', value: 'gefhghgfg' },
-        { label: 'ADCB', value: 'fhhfhvbfhbvh' },
-        { label: 'YYYY', value: 'hfbvhjbvhbv' },
-        { label: 'KDSKJS', value: 'bchbfv' },
-        { label: 'OOOOOO', value: 'fvhbvfbhv' }
-    ]);
     const [openSPNDropDown, setOpenSPNDropDown] = useState(false);
     const [dropDownSPNValue, setDropDownSPNValue] = useState(null);
-    const [dropDownVersionList, setDropDownVersionList] = useState([
-        { label: 'version 1', value: '1.1' },
-        { label: 'version 2', value: '2.2' },
-        { label: 'verion 3', value: '3.3' },
-        { label: 'version 4', value: '4.4' },
-        { label: 'version 5', value: '5.5' }
-    ]);
     const [openVersionDropDown, setOpenVersionDropDown] = useState(false);
     const [dropDownVersionValue, setDropDownVersionValue] = useState(null);
-    const [amount, setAmount] = useState('')
-    const [dropDownSalesPersonList, setDropDownSalesPersonList] = useState([
-        { label: 'ABG GSG', value: '11' },
-        { label: 'hgfhjd gvhgdh', value: '22' },
-        { label: 'wyeuy ewgywegy', value: '33' },
-        { label: 'ejwhjhghjd dchdvhc', value: '44' },
-        { label: 'cdhjdbhbhv', value: '55' }
-    ]);
+    const [amount, setAmount] = useState(null)
     const [openSalesPersonDropDown, setOpenSalesPersonDropDown] = useState(false);
     const [dropDownSalesPersonValue, setDropDownSalesPersonValue] = useState(null);
     const [detailOrComment, setDetailOrComment] = useState('')
-    const [followUpDate, setFollowUpDate] = useState('')
+    const [followUpDate, setFollowUpDate] = useState("")
     const [isTimePickerVisibleFollowUp, setIsTimePickerVisibleFollowUp] = useState(false)
     const focus = useIsFocused()
-    const infoData = useSelector((state) => state.infoReducer.infoArray)
     const [height, setHeight] = useState(38)
     const [addressHeight, setAddressHeight] = useState(38)
+    const dashBoardData = useSelector((state) => state.DashBoardReducer)
+    const [comment, setComment] = useState('')
+    const [commentHeight, setCommentHeight] = useState(38)
+    const [openStateIDropDown, setOpenStateIDDropDown] = useState(false);
+    const [dropDownStateIDValue, setDropDownStateIDValue] = useState(null);
+    //console.log("dashBoardDatadashBoardData", dashBoardData)
 
     useEffect(() => {
         setLabName("");
@@ -70,23 +51,52 @@ const DataEnterForm = ({ navigation }) => {
         setMobileNo("");
         setEmailId("");
         setAddress("");
-        setDate("");
+        const d = new Date(date);
+        const dateString = d.toISOString();
+        setDate(dateString);
         setDropDownSOLValue(null);
         setDropDownSPNValue(null);
         setDropDownVersionValue(null);
-        setAmount("");
+        setAmount(null);
         setDropDownSalesPersonValue(null);
         setDetailOrComment("");
+        setComment("");
         setFollowUpDate("");
         setHeight(38);
         setAddressHeight(38);
+        setDropDownStateIDValue(null)
     }, [focus])
 
+    const fetchDataForDashBoard = async () => {
+
+        const data = {
+            fromDate: dashBoardData?.filterDataArray?.fromdate ? dashBoardData.filterDataArray.fromdate + ' 00:00:01' : moment(new Date).format("YYYY-MM-DD") + ' 00:00:01',
+            toDate: dashBoardData?.filterDataArray?.todate ? dashBoardData.filterDataArray.todate + ' 23:59:59' : moment(new Date).format("YYYY-MM-DD") + ' 23:59:59',
+            salesPersonID: 0
+        }
+
+        try {
+            //setIsLoading(true)
+            const response = await DashBoardCardData(data);
+            if (response.isRequestSuccessFull) {
+                //setIsLoading(false)
+            } else {
+                //setIsLoading(false)
+                //Alert.alert("Error", response.error.message ? response.error.message : "")
+            }
+            // Handling the response data here
+        } catch (error) {
+            // Handling errors here
+            console.log("catch", error)
+            Alert.alert("Catch Error")
+        }
+    }
 
     const handleConfirm = (date) => {
-        console.log("A date has been picked: ", date);
-        const d = moment(date).format('DD-MM-YYYY')
-        setDate(d);
+        console.log("A date has been picked: ", typeof date, typeof moment(date));
+        const d = new Date(date);
+        const dateString = d.toISOString();
+        setDate(dateString);
         setIsTimePickerVisible(false);
     };
 
@@ -96,8 +106,9 @@ const DataEnterForm = ({ navigation }) => {
 
     const handleConfirmForFollowup = (date) => {
         console.log("A date has been picked: ", date);
-        const setDate = moment(date).format('DD-MM-YYYY')
-        setFollowUpDate(setDate);
+        const d = new Date(date);
+        const dateString = d.toISOString();
+        setFollowUpDate(dateString);
         setIsTimePickerVisibleFollowUp(false);
     };
 
@@ -105,32 +116,17 @@ const DataEnterForm = ({ navigation }) => {
         setIsTimePickerVisibleFollowUp(false);
     }
 
-    const onVersionSlection = (value) => {
-        console.log("dropDownVersionValue", value)
-        if (value == '1.1') {
-            setAmount('11,111')
-        } else {
-            if (value == '2.2') {
-                setAmount('22,222')
-            } else {
-                if (value == '3.3') {
-                    setAmount('33,333')
-                } else {
-                    if (value == '4.4') {
-                        setAmount('44,444')
-                    } else {
-                        setAmount("55,555")
-                    }
-                }
-            }
-        }
+    const onVersionChange = (item) => {
+        setAmount(item.estimatedCost)
+        setDropDownVersionValue(item)
+        setOpenVersionDropDown(false);
     }
 
     const validation = () => {
         console.log("validation")
         let isValid = false;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (isNullOrEmpty(labName) && isNullOrEmpty(ownerName) && isNullOrEmpty(mobileNo) && isNullOrEmpty(emailId)) {
+        if (isNullOrEmpty(labName) && isNullOrEmpty(ownerName) && isNullOrEmpty(mobileNo) && isNullOrEmpty(emailId) && isNullOrEmpty(dropDownStateIDValue)) {
             Alert.alert('Please Enter All required fields')
         } else {
             if (isNullOrEmpty(labName)) {
@@ -154,8 +150,12 @@ const DataEnterForm = ({ navigation }) => {
                                     if (isNullOrEmpty(dropDownSalesPersonValue)) {
                                         Alert.alert('Please Select Sales Person Name')
                                     } else {
-                                        console.log('Validation done')
-                                        isValid = true
+                                        if (isNullOrEmpty(dropDownStateIDValue)) {
+                                            Alert.alert('Please Select State Id')
+                                        } else {
+                                            console.log('Validation done')
+                                            isValid = true
+                                        }
                                     }
                                 }
                             }
@@ -192,23 +192,66 @@ const DataEnterForm = ({ navigation }) => {
         }
     }
 
-    const onSave = () => {
-        actions.addnewInfo({
-            labName: labName,
-            ownerName: ownerName,
-            mobileNo: mobileNo,
-            emailId: emailId,
-            address: address,
-            date: date,
-            dropDownSOLValue: dropDownSOLValue,
-            dropDownSPNValue: dropDownSPNValue,
-            dropDownVersionValue: dropDownVersionValue,
-            amount: amount,
-            detailOrComment: detailOrComment,
-            followUpDate: followUpDate,
-            id: 1 + infoData.length,
-        })
-        navigation.navigate('DashBoardFirst');
+    const onSave = async () => {
+        console.log("date:======", typeof date, new Date(date), JSON.stringify(date))
+        const data = {
+            "labName": labName,
+            "ownerName": ownerName,
+            "mobile": mobileNo,
+            "email": emailId,
+            "address": address,
+            "createddate": date,
+            "sourceId": dropDownSPNValue?.spid ? dropDownSPNValue?.spid : 0,
+            "projectedAmount": amount,
+            "requirement": detailOrComment,
+            "comment": comment,
+            "followupdate": followUpDate,
+            "salesPersonId": dropDownSalesPersonValue?.sid ? dropDownSalesPersonValue.sid : 0,
+            "versionId": dropDownVersionValue?.vid ? dropDownVersionValue.vid : 0,
+            "stateId": dropDownStateIDValue?.stid ? dropDownStateIDValue?.stid : 0,
+            // "attachments": "",
+            // "vesionName": "",
+            // "salesPersonName": "",
+            // "stateName": ""
+        }
+        const result = await dataEnter(data)
+        console.log("result on save :===", JSON.stringify(result))
+        if (result.isRequestSuccessFull) {
+            Alert.alert(
+                'Save!',
+                'Successfull',
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => [fetchDataForDashBoard(), navigation.navigate('DashBoardFirst')],
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Done',
+                        onPress: () => [fetchDataForDashBoard(), navigation.navigate('DashBoardFirst')],
+                        style: 'cancel',
+                    },
+                ],
+            );
+        } else {
+            Alert.alert(
+                'Save!',
+                'Unsuccessfull',
+                [
+                    {
+                        text: 'Ok',
+                        onPress: () => { navigation.navigate('DashBoardFirst') },
+                        style: 'cancel',
+                    },
+                    {
+                        text: 'Done',
+                        onPress: () => { },
+                        style: 'cancel',
+                    },
+                ],
+            );
+        }
+
     }
 
     const handlePhoneNumberChange = (text) => {
@@ -216,6 +259,11 @@ const DataEnterForm = ({ navigation }) => {
         const filteredText = text.replace(/[^0-9]/g, '')
         setMobileNo(filteredText);
     };
+
+    useEffect(() => {
+        //setAmount(dropDownSalesPersonValue?.estimatedCost)
+    }, [dropDownVersionValue])
+
 
     return (
         <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
@@ -277,7 +325,7 @@ const DataEnterForm = ({ navigation }) => {
                             <View style={{ width: '85%' }}>
                                 <TextInput
                                     style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
-                                    value={date}
+                                    value={date ? moment(date).format('DD-MM-YYYY') : date}
                                     placeholder='DD-MM-YYYY'
                                     editable={false}
                                     placeholderTextColor={'gray'}
@@ -303,13 +351,33 @@ const DataEnterForm = ({ navigation }) => {
                             />
                         </View>
                     </View>
+                    <View style={{ marginTop: 20 }}>
+                        <DropdownComponent
+                            data={dashBoardData.stateIDList}
+                            isFocus={openStateIDropDown}
+                            onChange={item => {
+                                console.log("item", item)
+                                setDropDownStateIDValue(item);
+                                setOpenStateIDDropDown(false);
+                            }}
+                            onBlur={() => setOpenStateIDDropDown(false)}
+                            value={dropDownStateIDValue}
+                            onFocus={() => setOpenStateIDDropDown(false)}
+                            searchPlaceholder={'Search State ID'}
+                            placeholder={'Select State ID'}
+                            label={'State ID'}
+                            labelField={"stateName"}
+                            valueField={"stid"}
+                            mandatory={true}
+                        />
+                    </View>
                     {/* <Text style={styles.textStyle}>Source of Lead List</Text> */}
                     <View style={{ marginTop: 20 }}>
                         <DropdownComponent
-                            data={dropDownSOLList}
+                            data={dashBoardData.sourceLeadNameList}
                             isFocus={openSOLDropDown}
                             onChange={item => {
-                                setDropDownSOLValue(item.value);
+                                setDropDownSOLValue(item);
                                 setOpenSOLDropDown(false);
                             }}
                             onBlur={() => setOpenSOLDropDown(false)}
@@ -318,15 +386,17 @@ const DataEnterForm = ({ navigation }) => {
                             searchPlaceholder={'Search Source of Lead'}
                             placeholder={'Select Source of Lead'}
                             label={'Source of Lead List'}
+                            labelField={"sourceName"}
+                            valueField={"sid"}
                         />
                     </View>
                     {/* <Text style={styles.textStyle}>Source Person Name List</Text> */}
                     <View style={{ marginTop: 20 }}>
                         <DropdownComponent
-                            data={dropDownSPNList}
+                            data={dashBoardData.sourcePersonNameList}
                             isFocus={openSPNDropDown}
                             onChange={item => {
-                                setDropDownSPNValue(item.value);
+                                setDropDownSPNValue(item);
                                 setOpenSPNDropDown(false);
                             }}
                             onBlur={() => setOpenSPNDropDown(false)}
@@ -335,17 +405,18 @@ const DataEnterForm = ({ navigation }) => {
                             searchPlaceholder={'Search Source Person Name'}
                             placeholder={'Select Source Person Name'}
                             label={'Source Person Name List'}
+                            labelField={"sourcePersonName"}
+                            valueField={"spid"}
                         />
                     </View>
                     {/* <Text style={styles.textStyle}>Version List</Text> */}
                     <View style={{ marginTop: 20 }}>
                         <DropdownComponent
-                            data={dropDownVersionList}
+                            data={dashBoardData.versionList}
                             isFocus={openVersionDropDown}
                             onChange={item => {
-                                setDropDownVersionValue(item.value);
-                                setOpenVersionDropDown(false);
-                                onVersionSlection(item.value)
+                                console.log("item", item.estimatedCost)
+                                onVersionChange(item)
                             }}
                             onBlur={() => setOpenVersionDropDown(false)}
                             value={dropDownVersionValue}
@@ -353,24 +424,28 @@ const DataEnterForm = ({ navigation }) => {
                             searchPlaceholder={'Search Version'}
                             placeholder={'Select Version'}
                             label={'Version List'}
+                            labelField={"vesionName"}
+                            valueField={"vid"}
                         />
                     </View>
                     <TextInputComponent
                         text={'Amount'}
                         textStyle={styles.textStyle}
                         textInputStyle={styles.inputBox}
-                        value={amount}
+                        value={amount !== null ? amount.toString() : ''}
                         onChangeText={(text) => setAmount(text)}
                         placeholder={'Enter Amount'}
                         mandatory={true}
+                        keyboardType={'phone-pad'}
                     />
                     {/* <Text style={styles.textStyle}>Sales Person Name</Text> */}
                     <View style={{ marginTop: 20 }}>
                         <DropdownComponent
-                            data={dropDownSalesPersonList}
+                            data={dashBoardData.salesPersonList}
                             isFocus={openSalesPersonDropDown}
                             onChange={item => {
-                                setDropDownSalesPersonValue(item.value);
+                                console.log("item", item)
+                                setDropDownSalesPersonValue(item);
                                 setOpenSalesPersonDropDown(false);
                             }}
                             onBlur={() => setOpenSalesPersonDropDown(false)}
@@ -379,11 +454,13 @@ const DataEnterForm = ({ navigation }) => {
                             searchPlaceholder={'Search Sales Person Name'}
                             placeholder={'Select Sales Person Name'}
                             label={'Sales Person Name'}
+                            labelField={"salesPersonName"}
+                            valueField={"sid"}
                             mandatory={true}
                         />
                     </View>
                     <TextInputComponent
-                        text={'Detail or Comment Required'}
+                        text={'Detail'}
                         textStyle={styles.textStyle}
                         textInputStyle={[styles.inputBox, { height: height }]}
                         value={detailOrComment}
@@ -393,6 +470,17 @@ const DataEnterForm = ({ navigation }) => {
                         numberOfLines={4}
                         onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height)}
                     />
+                    <TextInputComponent
+                        text={'Comment Required'}
+                        textStyle={styles.textStyle}
+                        textInputStyle={[styles.inputBox, { height: commentHeight }]}
+                        value={comment}
+                        onChangeText={(text) => setComment(text)}
+                        placeholder={'Enter Comment'}
+                        //mandatory={true}
+                        numberOfLines={4}
+                        onContentSizeChange={e => setCommentHeight(e.nativeEvent.contentSize.height)}
+                    />
                     <View style={styles.datemainViewStyle}>
                         <Text style={[styles.textStyle, styles.dateInputStyle]}>
                             {/* <Text style={{ color: 'red' }}>* </Text> */}
@@ -401,7 +489,7 @@ const DataEnterForm = ({ navigation }) => {
                             <View style={{ width: '85%' }}>
                                 <TextInput
                                     style={[styles.textStyle, { fontWeight: 'normal', paddingVertical: 6 }]}
-                                    value={followUpDate}
+                                    value={followUpDate ? moment(followUpDate).format('DD-MM-YYYY') : followUpDate}
                                     placeholder='DD-MM-YYYY'
                                     editable={false}
                                     placeholderTextColor={'gray'}

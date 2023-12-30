@@ -7,7 +7,13 @@ const init_state = {
     newLeadArray: [],
     quotationArray: [],
     demoArray: [],
-    closeLeadArray: []
+    closeLeadArray: [],
+    salesPersonList:[],
+    versionList:[],
+    stateIDList:[],
+    sourceLeadNameList:[],
+    sourcePersonNameList:[],
+    filterDataArray:[]
 }
 
 export const dashBoardStateSlice = createSlice({
@@ -67,9 +73,52 @@ export const dashBoardStateSlice = createSlice({
                 pieData: pieDataInPercentage ? pieDataInPercentage : [],
                 stackData: stackData ? stackData : []
             }
+        },
+        salesPersonListReducer: (state,data) =>{
+            //console.log("data sales person list reducer",JSON.stringify(data))
+            return{
+                ...state,
+                salesPersonList:data.payload.data
+            }
+        },
+        versionListReducer: (state,data) =>{
+            //console.log("data versionListReducer list reducer",JSON.stringify(data))
+            return{
+                ...state,
+                versionList:data.payload.data
+            }
+        },
+        stateIDListReducer: (state,data) =>{
+            //console.log("data stateIDListReducer list reducer",JSON.stringify(data))
+            return{
+                ...state,
+                stateIDList:data.payload.data
+            }
+        },
+        sourecLeadListReducer: (state,data) =>{
+            //console.log("data sourecLeadListReducer list reducer",JSON.stringify(data))
+            return{
+                ...state,
+                sourceLeadNameList:data.payload.data
+            }
+        },
+        sourecPersonListReducer: (state,data) =>{
+            //console.log("data sourecPersonListReducer list reducer",JSON.stringify(data))
+            return{
+                ...state,
+                sourcePersonNameList:data.payload.data
+            }
+        },
+        addfilterInfoReducer: (state,data) =>{
+            //console.log("datadata data",data.payload)
+            return {
+                ...state,
+                filterDataArray: data.payload,
+
+            }
         }
     }
 })
 
-export const { dashBoardReducer } = dashBoardStateSlice.actions
+export const { dashBoardReducer ,salesPersonListReducer,versionListReducer,stateIDListReducer,sourecLeadListReducer,sourecPersonListReducer,addfilterInfoReducer} = dashBoardStateSlice.actions
 export default dashBoardStateSlice.reducer

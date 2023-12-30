@@ -36,12 +36,12 @@ const ListScreenPage = (props, { route, navigation, }) => {
                             <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.address}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={styles.textStyle}>Source Person Name : </Text>
+                            <Text style={styles.textStyle}>Sales Person Name : </Text>
                             <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.salesPersonName}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Version : </Text>
-                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.version}</Text>
+                            <Text style={[styles.textStyle, { fontWeight: 'normal' }]}>{item.vesionName}</Text>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={styles.textStyle}>Amount : </Text>
