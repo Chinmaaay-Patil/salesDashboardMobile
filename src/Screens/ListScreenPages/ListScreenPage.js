@@ -39,10 +39,10 @@ const ListScreenPage = (props, { route, navigation, }) => {
     var d = new Date();
     //const tempdate = d.setDate(d.getDate() - 7);
     const data = {
-      // fromDate: moment(new Date).format('YYYY-MM-DD') + ' 00:00:01',
-      // toDate: moment(new Date).format('YYYY-MM-DD') + ' 23:59:59',
-      fromDate: "",
-      toDate: "",
+      fromDate: moment(new Date).format('YYYY-MM-DD') + ' 00:00:01',
+      toDate: moment(new Date).format('YYYY-MM-DD') + ' 23:59:59',
+      // fromDate: "",
+      // toDate: "",
       salesPersonID: 0,
       versionID: 0,
       stateID: 0
@@ -322,7 +322,7 @@ const ListScreenPage = (props, { route, navigation, }) => {
                 <View style={{ width: '90%' }}>
                   <TextInput
                     style={[styles.textStyle, { fontWeight: 'normal' }]}
-                    value={fromDate}
+                    value={fromDate ? moment(fromDate).format('YYYY-MM-DD') : moment(new Date).format('YYYY-MM-DD')}
                     placeholder='YYYY-MM-DD'
                     editable={false}
                   />
@@ -355,7 +355,7 @@ const ListScreenPage = (props, { route, navigation, }) => {
                 <View style={{ width: '90%' }}>
                   <TextInput
                     style={[styles.textStyle, { fontWeight: 'normal' }]}
-                    value={toDate}
+                    value={toDate ? moment(toDate).format('YYYY-MM-DD') : moment(new Date).format('YYYY-MM-DD')}
                     placeholder='YYYY-MM-DD'
                     editable={false}
                   />

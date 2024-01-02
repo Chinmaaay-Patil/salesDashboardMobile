@@ -236,7 +236,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                      <View style={styles.cardSubView}>
                         <Image source={require('../../Assets/customer-engagement.png')} style={styles.cardImageStyle} />
                         <Text style={styles.cardCountText}>{dashBoardData?.newLeadArray[0]?.count ? dashBoardData?.newLeadArray[0]?.count : 0}</Text>
-                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
+                        {/* <Text style={styles.cardSubText}>{0} Opportunities</Text> */}
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
@@ -246,7 +246,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                      <View style={styles.cardSubView}>
                         <Image source={require('../../Assets/quotation.png')} style={styles.cardImageStyle} />
                         <Text style={styles.cardCountText}>{dashBoardData?.quotationArray[0]?.count ? dashBoardData?.quotationArray[0]?.count : 0}</Text>
-                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
+                        {/* <Text style={styles.cardSubText}>{0} Opportunities</Text> */}
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
@@ -258,7 +258,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                      <View style={styles.cardSubView}>
                         <Image source={require('../../Assets/demo.png')} style={styles.cardImageStyle} />
                         <Text style={styles.cardCountText}>{dashBoardData?.demoArray[0]?.count ? dashBoardData?.demoArray[0]?.count : 0}</Text>
-                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
+                        {/* <Text style={styles.cardSubText}>{0} Opportunities</Text> */}
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
@@ -268,7 +268,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                      <View style={styles.cardSubView}>
                         <Image source={require('../../Assets/Group.png')} style={styles.cardImageStyle} />
                         <Text style={styles.cardCountText}>{dashBoardData?.closeLeadArray[0]?.count ? dashBoardData?.closeLeadArray[0]?.count : 0}</Text>
-                        <Text style={styles.cardSubText}>{0} Opportunities</Text>
+                        {/* <Text style={styles.cardSubText}>{0} Opportunities</Text> */}
                      </View>
                   </LinearGradient>
                </TouchableOpacity>
@@ -324,7 +324,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                         <View style={{ width: '90%' }}>
                            <TextInput
                               style={[styles.textStyle, { fontWeight: 'normal' }]}
-                              value={fromDate}
+                              value={fromDate ?  moment(fromDate).format('YYYY-MM-DD') : moment(new Date).format('YYYY-MM-DD')}
                               placeholder='YYYY-MM-DD'
                               editable={false}
                            />
@@ -357,7 +357,7 @@ const DashBoardFirstPage = ({ navigation }) => {
                         <View style={{ width: '90%' }}>
                            <TextInput
                               style={[styles.textStyle, { fontWeight: 'normal' }]}
-                              value={toDate}
+                              value={toDate ? moment(toDate).format('YYYY-MM-DD') : moment(new Date).format('YYYY-MM-DD')}
                               placeholder='YYYY-MM-DD'
                               editable={false}
                            />
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
    cardStyle: { height: 180, width: 180, marginTop: 8, margin: 8, borderRadius: 10 },
    cardDivStyle: { height: '50%', alignItems: 'center', justifyContent: 'center' },
    cardTitleText: { padding: 20, fontWeight: '400', fontSize: 20, lineHeight: 17.3, color: '#FFFFFF', fontFamily: 'Robot-Thin' },
-   cardSubView: { alignItems: 'center', alignContent: 'center', bottom: 10, paddingVertical: 10 },
+   cardSubView: { alignItems: 'center', alignContent: 'center', bottom: 0, paddingVertical: 10 },
    cardCountText: { fontFamily: 'Roboto-Medium', fontSize: 25, color: '#ffffff' },
    cardSubText: { fontFamily: 'Roboto-Medium', fontSize: 14, color: '#ffffff' },
    cardImageStyle: { width: 50, height: 50, alignSelf: 'center' },
